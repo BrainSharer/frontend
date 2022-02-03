@@ -1,6 +1,7 @@
-# BrainsharerFrontend
+# Brainsharer Frontend
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.2.
+It makes use of Bootstrap and jquery.
 
 ## Development server
 
@@ -12,7 +13,9 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Run `ng build --configuration production` to build the project. 
+The build artifacts will be stored in the `dist/brainsharer_frontend` directory.
+Copy all the files in that directory to the /var/www/html/ directory on the server.
 
 ## Running unit tests
 

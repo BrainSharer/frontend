@@ -1,0 +1,13 @@
+<div class="container">
+	<div *ngFor="let state of data" class="card">
+
+		<div class="card-body">
+			<h5 class="card-title">{{state.comments}}</h5>
+			<p class="card-text">
+			<li *ngFor="let subItem of state['neuroglancer_state']['layers']">
+				{{subItem.name}}</li>
+			</p>
+		</div>
+
+	</div>
+</div>
