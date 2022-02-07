@@ -1,8 +1,26 @@
 .container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(305px, 1fr));
-    grid-gap: 15px;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(305px, 1fr));
+	grid-gap: 15px;
 }
-.container > .card img {
-    max-width: 100%;
+
+.container>.card img {
+	max-width: 100%;
 }
+
+a {
+	text-decoration: none;
+	background-color: #FFFFFF;
+	color: #000000;
+}
+
+a:hover {
+	background-color: #1bd889;
+	color: #000000;
+	box-shadow: 8px 8px 3px #8A1BD8;
+}
+
+.checkbox-spacer {
+    margin-left: 25px !important;
+    margin-right: 4px !important;
+	}

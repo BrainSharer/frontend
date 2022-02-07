@@ -1,13 +1,44 @@
+<div class="container-fluid">
+	<form [formGroup]="formGroup">
+		<div class="row">
+			<label>Select one or more histology tags</label>
+		</div>
+		<div class="row">
+		    
+		    <div class="col">
+            
+                        <label class="checkbox-spacer">Tag 1</label> 
+                        <input (change)="eventCheck($event.target)" type="checkbox" value="1" name="histology"> 
+            
+                        <label class="checkbox-spacer">Tag 2</label> 
+                        <input (change)="eventCheck($event.target)" type="checkbox" value="2" name="histology"> 
+            
+                        <label class="checkbox-spacer">Tag 3</label> 
+                        <input (change)="eventCheck($event.target)" type="checkbox" value="3" name="histology"> 
+            
+                        <label class="checkbox-spacer">Tag 4</label> 
+                        <input (change)="eventCheck($event.target)" type="checkbox" value="4" name="histology"> 
+            
+                        <label class="checkbox-spacer">Tag 5</label> 
+                        <input (change)="eventCheck($event.target)" type="checkbox" value="5" name="histology"> 
+                        
+            </div>
+            
+		</div>
+	</form>
+</div>
+
 <div class="container">
 	<div *ngFor="let state of data" class="card">
 
-		<div class="card-body">
+		<a class="card-body" target="_blank"
+			href="https://www.brainsharer.org/ng/?id={{state.id}}">
 			<h5 class="card-title">{{state.comments}}</h5>
 			<p class="card-text">
 			<li *ngFor="let subItem of state['neuroglancer_state']['layers']">
 				{{subItem.name}}</li>
 			</p>
-		</div>
+		</a>
 
 	</div>
 </div>
