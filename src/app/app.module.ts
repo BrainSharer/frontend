@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,6 +20,7 @@ import { HomeComponent } from './home/home.component';
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
+    NgbModule,
     ReactiveFormsModule
   ],
   providers: [],
