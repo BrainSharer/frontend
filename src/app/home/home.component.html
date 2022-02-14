@@ -29,100 +29,29 @@
             
 		</div>
 		-->
-		
+	<form #myform="ngForm" (ngSubmit)="onSubmit(myform)">
 		<div class="form-group form-spacer">
-                <input placeholder="Search by brain region"
-                    id="idSearchBrainRegion" type="text" class="form-control form-control-sm"
-                    [(ngModel)]="model" [ngbTypeahead]="search"
-                    [resultFormatter]="formatter" />
-         </div>
-         
-        <div class="form-group form-spacer">
-                <input placeholder="Search by recording modality"
-                    id="idSearchModality" type="text" class="form-control form-control-sm"/>
-        </div>
-         
-        <div class="form-group form-spacer">
-                <input placeholder="Search by gene expression"
-                    id="idSearchModality" type="text" class="form-control form-control-sm"/>
-        </div>
-         
-        <div class="form-group form-spacer">
-                <input placeholder="Search by performance center"
-                    id="idSearchModality" type="text" class="form-control form-control-sm"/>
-        </div>
+			<input placeholder="Search by brain region" id="idSearchBrainRegion" name="search_brain_region"
+				type="text" class="form-control form-control-sm" [(ngModel)]="model"
+				[ngbTypeahead]="search" [resultFormatter]="formatter" />
+		</div>
+	</form>
 
 </div>
 
 <div class="container">
-<!-- 
-	<div *ngFor="let state of data" class="card">
+	<div *ngFor="let state of states" class="card">
 
 		<a class="card-body" target="_blank"
-			href="https://www.brainsharer.org/ng/?id={{state.id}}">
+		  href="{{ngUrl}}?id={{state.id}}">
 			<h5 class="card-title">{{state.comments}}</h5>
-			<p class="card-text">Lab: {{state.lab }}
-			<p class="card-text">
-			<li *ngFor="let subItem of state['neuroglancer_state']['layers']">
-				{{subItem.name}}</li>
+            <p class="card-text">Lab: {{state.lab }}
+            <p class="card-text">Read only: {{state.readonly }}
+            <li *ngFor="let subItem of state.neuroglancer_state['layers']">{{subItem.name}}</li>
 			</p>
 		</a>
 
 	</div>
--->
-
-    <div class="card">
-        <a class="card-body" target="_blank"
-            href="https://www.brainsharer.org/ng/?id=18">
-            <h5 class="card-title">Mouselight test</h5>
-            <p class="card-text">Lab: Princeton
-            <p class="card-text">Layers
-            <li>princetonmouse</li>
-            <li>pma_20um_mouselight</li>
-            </p>
-        </a>
-    </div>
-
-    <div class="card">
-        <a class="card-body" target="_blank"
-            href="https://www.brainsharer.org/ng/?id=1">
-            <h5 class="card-title">DK39 with 3 Channels and premotor annotations</h5>
-            <p class="card-text">Lab: UCSD
-            <p class="card-text">Layers
-            <li>Channel 1</li>
-            <li>Channel 2</li>
-            <li>Channel 3</li>
-            <li>premotor</li>
-            </p>
-        </a>
-    </div>
-
-    <div class="card">
-        <a class="card-body" target="_blank"
-            href="https://www.brainsharer.org/ng/?id=1">
-            <h5 class="card-title">DK55 with 3 Channels</h5>
-            <p class="card-text">Lab: UCSD
-            <p class="card-text">Layers
-            <li>Channel 1</li>
-            <li>Channel 2</li>
-            <li>Channel 3</li>
-            </p>
-        </a>
-    </div>
-
-    <div class="card">
-        <a class="card-body" target="_blank"
-            href="https://www.brainsharer.org/ng/?id=1">
-            <h5 class="card-title">DK52 with 3 Channels and UCSD Atlas</h5>
-            <p class="card-text">Lab: UCSD
-            <p class="card-text">Layers
-            <li>Channel 1</li>
-            <li>Channel 2</li>
-            <li>Channel 3</li>
-            </p>
-        </a>
-    </div>
-
 
 
 </div>
