@@ -1,7 +1,11 @@
 .container {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(305px, 1fr));
-	grid-gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(305px, 1fr));
+    grid-gap: 15px;
+}
+
+.main-page {
+    margin-top: 4px;
 }
 
 .container>.card img {

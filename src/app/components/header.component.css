@@ -1,0 +1,13 @@
+.jumbotron {
+    min-height: 300px;
+}
+
+.jumbotron-image {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.navbar > a {
+  margin:10px;
+}

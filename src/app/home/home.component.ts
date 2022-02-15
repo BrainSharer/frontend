@@ -6,7 +6,6 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { State } from '../models/state';
 import { environment } from '../../environments/environment';
 
-
 const brains = ['CHATM2', 'DK1-2', 'DK19_20', 'DK30', 'DK40', 'DK5', 'DK55', 'DK62', 'DK73_truncated', 'DKEA',
     'MD589', 'MD593', 'MD599', 'MD635', 'MD652', 'MD661',
     'CHATM3', 'DK17', 'DK23', 'DK37', 'DK41', 'DK50', 'DK6', 'DK63', 'DK77',
@@ -24,7 +23,6 @@ const brains = ['CHATM2', 'DK1-2', 'DK19_20', 'DK30', 'DK40', 'DK5', 'DK55', 'DK
 })
 export class HomeComponent implements OnInit {
 
-    // data: any[] | undefined;
     histology: String[] = [];
     states: State[] = [];
     ngUrl = environment.NG_URL;
@@ -34,6 +32,7 @@ export class HomeComponent implements OnInit {
     constructor(public dataService: DataService) { }
 
     ngOnInit(): void {
+
 
         this.dataService.getStates().subscribe((resp: State[]) => {
             this.states = resp;

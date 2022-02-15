@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { State } from './models/state';
+import { User } from './models/user';
 
 @Injectable({
     providedIn: 'root'
@@ -16,8 +17,7 @@ export class DataService {
 
 
     getStates(): Observable<State[]> {
-        const url = this.baseUrl + '/neuroglancer';
-        return this.http.get(url).
+        return this.http.get(this.baseUrl + '/neuroglancer').
             pipe(
                 map((data: any) => {
                     return data['results'];
@@ -27,4 +27,9 @@ export class DataService {
             )
     }
 
+
+    getCurrentUser(): any {
+        return this.http.get<User>(this.baseUrl + '/session');
+    }
+    
 }
