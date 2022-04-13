@@ -8,6 +8,11 @@
   background-size: cover;
 }
 
+.jumbotron > p {
+  margin-left: 10px;
+  font-size: larger;
+}
+
 .navbar > a {
   margin:10px;
 }
