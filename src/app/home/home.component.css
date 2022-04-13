@@ -1,37 +1,37 @@
 .container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(305px, 1fr));
-    grid-gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(305px, 1fr));
+  grid-gap: 15px;
 }
 
 .main-page {
-    margin-top: 4px;
+  margin-top: 4px;
 }
 
 .container>.card img {
-	max-width: 100%;
+  max-width: 100%;
 }
 
 a {
-	text-decoration: none;
-	background-color: #FFFFFF;
-	color: #000000;
-	border-style: solid;
-	border-width: 2px;
-	border-color: #8A1BD8;
+  text-decoration: none;
+  background-color: #FFFFFF;
+  color: #000000;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #8A1BD8;
 }
 
 a:hover {
-	background-color: #1bd889;
-	color: #000000;
-	box-shadow: 8px 8px 3px #8A1BD8;
+  background-color: #1bd889;
+  color: #000000;
+  box-shadow: 8px 8px 3px #8A1BD8;
 }
 
 .checkbox-spacer {
-    margin-left: 25px !important;
-    margin-right: 4px !important;
+  margin-left: 25px !important;
+  margin-right: 4px !important;
 }
 
 .form-spacer {
-	margin: 10px;
+  margin: 10px;
 }
