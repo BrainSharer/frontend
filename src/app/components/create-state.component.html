@@ -1,1 +1,31 @@
-<p>create-state works!</p>
+<p>Create a Neuroglancer view by dragging data from the left to the right side of the box below.
+    When you have all the data you want on the right side, click Submit to open the data in
+    Neuroglancer.
+</p>
+<form class="my-form" #loginForm=ngForm (ngSubmit)="Submit()">
+
+    <div class="state-container">
+
+        <div class="state-subcontainer">
+            <h4>Available data</h4>
+
+            <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="available_data"
+                [cdkDropListConnectedTo]="[doneList]" class="state-list" (cdkDropListDropped)="drop($event)">
+                <div class="state-box" *ngFor="let item of available_data" cdkDrag>{{item.prep_id}} {{item.description}}</div>
+            </div>
+        </div>
+
+        <div class="state-subcontainer">
+            <h4>Data to use in Neuroglancer</h4>
+
+            <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="state_data"
+                [cdkDropListConnectedTo]="[todoList]" class="state-list" (cdkDropListDropped)="drop($event)">
+                <div class="state-box" *ngFor="let item of state_data" cdkDrag>{{item.prep_id}} {{item.description}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="submit-button">
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+</form>

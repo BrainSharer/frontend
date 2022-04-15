@@ -11,6 +11,8 @@ import { HomeComponent } from './home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './components/header.component';
 import { CreateStateComponent } from './components/create-state.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
     declarations: [
@@ -26,6 +28,8 @@ import { CreateStateComponent } from './components/create-state.component';
         FormsModule,
         NgbModule,
         ReactiveFormsModule,
+        BrowserAnimationsModule,
+        DragDropModule
     ],
     providers: [],
     bootstrap: [AppComponent]

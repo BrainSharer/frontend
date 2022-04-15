@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { State } from './models/state';
+import { StateView } from './models/state_view';
 import { User } from './models/user';
 
 @Injectable({
@@ -21,6 +22,17 @@ export class DataService {
             pipe(
                 map((data: any) => {
                     return data['results'];
+                }), catchError(error => {
+                    return throwError('Something went wrong!' + error);
+                })
+            )
+    }
+
+    getViews(): Observable<StateView[]> {
+        return this.http.get(this.baseUrl + '/states').
+            pipe(
+                map((data: any) => {
+                    return data;
                 }), catchError(error => {
                     return throwError('Something went wrong!' + error);
                 })

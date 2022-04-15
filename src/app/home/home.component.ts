@@ -29,13 +29,12 @@ export class HomeComponent implements OnInit {
   model: any;
   formatter = (result: string) => result.toUpperCase();
 
-  constructor(public dataService: DataService) { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
 
     this.dataService.getStates().subscribe((resp: State[]) => {
       this.states = resp;
-      console.log(resp);
     });
   }
 
