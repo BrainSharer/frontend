@@ -3,6 +3,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 
 import { StateView } from '../models/state_view'
 import { DataService } from '../data.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-create-state',
@@ -11,14 +12,17 @@ import { DataService } from '../data.service';
 })
 export class CreateStateComponent implements OnInit {
   ngOnInit(): void {
-    this.dataService.getViews().subscribe((resp: StateView[]) => {
+    this.dataService.getStateViews().subscribe((resp: StateView[]) => {
       this.available_data = resp;
     });
 }
   available_data: StateView[] = [];
+  url_ID = 0;
+  ngUrl = environment.NG_URL;
   state_data: StateView[] = [{ 
     "id": 0, 
     "prep_id": '', 
+    "lab": '',
     "description": "Place items above this one.", 
     "url":"",
     }];
@@ -40,5 +44,15 @@ export class CreateStateComponent implements OnInit {
 
   Submit(){
     console.log(this.state_data);
+
+    this.dataService.addStateView(this.state_data)
+    .subscribe({
+      next: (res) => {
+        this.url_ID = res;
+        const redirecturl = this.ngUrl + '?id=' + this.url_ID;
+        window.location.href = redirecturl;
+      },
+      error: (e) => console.error(e)
+    });
   }
 }
