@@ -13,6 +13,7 @@ import { HeaderComponent } from './components/header.component';
 import { CreateStateComponent } from './components/create-state.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ContactComponent } from './components/contact/contact.component';
 
 @NgModule({
     declarations: [
@@ -20,6 +21,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
         HomeComponent,
         HeaderComponent,
         CreateStateComponent,
+        ContactComponent,
     ],
     imports: [
         BrowserModule,

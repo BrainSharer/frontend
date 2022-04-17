@@ -24,18 +24,48 @@ const brains = ['CHATM2', 'DK1-2', 'DK19_20', 'DK30', 'DK40', 'DK5', 'DK55', 'DK
 export class HomeComponent implements OnInit {
 
   histology: String[] = [];
-  states: State[] = [];
+  data: State[] = [];
+  baseUrl = environment.API_URL;
   ngUrl = environment.NG_URL;
+  apiUrl = this.baseUrl + '/neuroglancer'
+  next: string = '';
+  previous: string = '';
   model: any;
+  numberOfPages: number = 0;
   formatter = (result: string) => result.toUpperCase();
 
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
+    this.setData(this.apiUrl);
+  }
 
-    this.dataService.getStates().subscribe((resp: State[]) => {
-      this.states = resp;
+  private setData(url: string) {
+    this.dataService.getData(url).subscribe(response => {
+      this.data = response.results;
+      this.numberOfPages = response.count;
+      console.log(this.numberOfPages);
+
+      if (response.next) {
+        this.next = response.next;
+      }
+
+      if (response.previous) {
+        this.previous = response.previous;
+      }
+
     });
+  }
+
+  // function fetches the next paginated items by using the url in the next property
+  public fetchNext() {
+    console.log("is this beging called?")
+    this.setData(this.next);
+  }
+
+  // function fetches the previous paginated items by using the url in the previous property
+  public fetchPrevious() {
+    this.setData(this.previous);
   }
 
   search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
@@ -47,21 +77,6 @@ export class HomeComponent implements OnInit {
     )
 
 
-/*
-onGetStates(id: number): Observable<State[]> {
-    return this.http
-        .get<State[]>(this.stateurl)
-        .map((results: State[]) => {
-            const tempspots: State[] =[];
-            results.forEach(state => {
-                if (state.id > id) {
-                    tempspots.push(state);
-                }
-            })
-            return tempspots;
-        })
-}
-*/
 
 eventCheck(event: any) {
   if (event.value) {

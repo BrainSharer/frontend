@@ -12,13 +12,15 @@ import { environment } from '../../environments/environment';
 })
 export class CreateStateComponent implements OnInit {
   ngOnInit(): void {
-    this.dataService.getStateViews().subscribe((resp: StateView[]) => {
-      this.available_data = resp;
-    });
+    this.setData(this.apiUrl);
 }
-  available_data: StateView[] = [];
+  data: StateView[] = [];
   url_ID = 0;
+  baseUrl = environment.API_URL;
   ngUrl = environment.NG_URL;
+  apiUrl = this.baseUrl + '/states'
+  next: string = '';
+  previous: string = '';
   state_data: StateView[] = [{ 
     "id": 0, 
     "prep_id": '', 
@@ -28,6 +30,31 @@ export class CreateStateComponent implements OnInit {
     }];
 
   constructor(private dataService: DataService) { }
+
+  setData(url: string) {
+    this.dataService.getData(url).subscribe(response => {
+      this.data = response.results;
+
+      if (response.next) {
+        this.next = response.next;
+      }
+
+      if (response.previous) {
+        this.previous = response.previous;
+      }
+
+    });
+  }
+
+  // function fetches the next paginated items by using the url in the next property
+  fetchNext() {
+    this.setData(this.next);
+  }
+
+  // function fetches the previous paginated items by using the url in the previous property
+  fetchPrevious() {
+    this.setData(this.previous);
+  }
 
   drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
@@ -40,6 +67,10 @@ export class CreateStateComponent implements OnInit {
         event.currentIndex,
       );
     }
+  }
+
+  resolved(captchaResponse: string) {
+    console.log(`Resolved captcha with response: ${captchaResponse}`);
   }
 
   Submit(){

@@ -7,8 +7,21 @@ p {
 .submit-button {
     margin: 0px 0 0 20px;
 }
+.state-pagination {
+  margin: 10px 0 0 20px;
+}
+.page-item > a:hover {
+  background-color: #1bd889;
+  color: #000000;
+  box-shadow: 2px 2px 1px #8A1BD8;
+}
+.page-item > button[disabled] {
+  pointer-events: none;
+}
+
+
 .state-container {
-    margin: 20px 20px 10px 20px;
+    margin: 10px 20px 0px 20px;
 }
 
 
@@ -39,8 +52,9 @@ p {
     box-sizing: border-box;
     cursor: move;
     background: #1ACD83;
-    font-size: 12px;
+    font-size: 13px;
   }
+
   
   .cdk-drag-preview {
     box-sizing: border-box;
@@ -65,3 +79,4 @@ p {
   .state-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
+

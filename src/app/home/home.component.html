@@ -10,7 +10,7 @@
 -->
 
 <div class="container">
-	<div *ngFor="let state of states" class="card">
+	<div *ngFor="let state of data" class="card">
 		<a class="card-body" target="_blank" href="{{ngUrl}}?id={{state.id}}">
 			<h5 class="card-title">{{state.comments}}</h5>
 			<p class="card-text">Lab: {{state.lab }}
@@ -19,4 +19,17 @@
 				</p>
 		</a>
 	</div>
+
+            
+	<nav aria-label="Page navigation">
+		<ul class="pagination state-pagination">
+		  <li class="page-item">
+			  <button class="page-link" [disabled]="numberOfPages <= 10" (click)="fetchPrevious()">Previous</button></li>
+		  <li class="page-item">
+			  <button class="page-link" [disabled]="numberOfPages <= 10" (click)="fetchNext()">Next</button></li>
+		</ul>
+	</nav>
+
+
+
 </div>

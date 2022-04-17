@@ -36,3 +36,15 @@ a:hover {
 .form-spacer {
   margin: 10px;
 }
+
+.state-pagination {
+  margin: 10px 0 0 20px;
+}
+.page-item > button:hover {
+  background-color: #1bd889;
+  color: #000000;
+  box-shadow: 2px 2px 1px #8A1BD8;
+}
+.page-item > button[disabled] {
+  pointer-events: none;
+}

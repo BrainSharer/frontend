@@ -25,22 +25,22 @@ export class DataService {
     constructor(private http: HttpClient) { }
 
 
-    public getStates(): Observable<State[]> {
-        return this.http.get(this.baseUrl + '/neuroglancer').
+    public getStates(url: string): Observable<any> {
+        return this.http.get(url).
             pipe(
                 map((data: any) => {
-                    return data['results'];
+                    return data;
                 }), catchError(error => {
                     return throwError(() => new Error('Error: ' + error))
                 })
             )
     }
-    // StateView GET 
-    public getStateViews(): Observable<StateView[]> {
-        return this.http.get(this.baseUrl + '/states').
+    // Generic get. Can be used by any url as it returns any
+    public getData(url: string): Observable<any> {
+        return this.http.get(url).
             pipe(
                 map((data: any) => {
-                    return data['results'];
+                    return data;
                 }), catchError(error => {
                     return throwError(() => new Error('Error: ' + error))
                 })
