@@ -23,10 +23,14 @@ export class CreateStateComponent implements OnInit {
   previous: string = '';
   state_data: StateView[] = [{ 
     "id": 0, 
-    "prep_id": '', 
+    "layer_name": '',
+    "description": 'Place items above this one.',
+    "url": '',
+    "layer_type": '',
+    "resolution": 0,
+    "zresolution": 0,
     "lab": '',
-    "description": "Place items above this one.", 
-    "url":"",
+    "animal": ''
     }];
 
   constructor(private dataService: DataService) { }
