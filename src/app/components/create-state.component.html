@@ -11,7 +11,7 @@
 
             <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="data"
                 [cdkDropListConnectedTo]="[doneList]" class="state-list" (cdkDropListDropped)="drop($event)">
-                <div class="state-box" *ngFor="let item of data" cdkDrag>{{item.lab}} {{item.animal}} {{item.layer_name}} {{item.description}}</div>
+                <div class="state-box" *ngFor="let item of data" cdkDrag>{{item.lab_name}} {{item.group_name}} {{item.layer_name}} {{item.description}}</div>
             </div>
 
             
@@ -31,7 +31,7 @@
 
             <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="state_data"
                 [cdkDropListConnectedTo]="[todoList]" class="state-list" (cdkDropListDropped)="drop($event)">
-                <div class="state-box" *ngFor="let item of state_data" cdkDrag>{{item.lab}} {{item.animal}} {{item.layer_name}} {{item.description}}</div>
+                <div class="state-box" *ngFor="let item of state_data" cdkDrag>{{item.lab_name}} {{item.group_name}} {{item.layer_name}} {{item.description}}</div>
             </div>
         </div>
     </div>
