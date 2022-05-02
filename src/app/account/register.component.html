@@ -1,43 +1,51 @@
 <div class="row justify-content-center">
-  <div class="col-8">
-    <p>This page is under construction and all functionality has been disabled.
-      We are expecting all site functionality to be available in the summer of 2022. 
-      </p>
-      <p>
-      You can contact us by sending a request via email to Duane Rinehart: drinehart at ucsd.edu
-    </p>
-  </div>
-</div>
-
-<!--
-<div class="row justify-content-center">
   <div class="col-4">
     <p>Join the Brainsharer community</p>
   </div>
 </div>
--->
 
-<form novalidate>
-  <div class="form-group">
-    <label>Display name</label>
-    <input type="text" class="form-control">
+<div class="register-form">
+
+
+  <div class="form-group col-4">
+    <label>Username</label>
+    <input [(ngModel)]="register.username" type="text" class="form-control">
   </div>
 
-  <div class="form-group">
+  <div class="form-group col-4">
+    <label>First name</label>
+    <input [(ngModel)]="register.first_name" type="text" class="form-control">
+  </div>
+
+  <div class="form-group col-4">
+    <label>Last name</label>
+    <input [(ngModel)]="register.last_name" type="text" class="form-control">
+  </div>
+
+  <div class="form-group col-4">
     <label>Email</label>
-    <input type="email" class="form-control">
+    <input [(ngModel)]="register.email" type="email" class="form-control">
   </div>
 
-  <div class="form-group">
+  <div class="form-group col-4">
     <label>Password</label>
-    <input type="password" class="form-control">
+    <input [(ngModel)]="register.password" type="password" class="form-control">
   </div>
 
+  <div class="form-group col-4">
+    <label>Confirm password</label>
+    <input [(ngModel)]="register.password2" type="password" class="form-control">
+  </div>
+
+  <!--
   <div class="form-group">
     <re-captcha (resolved)="resolved($event)" siteKey="6Lft4F0eAAAAAByzzWQ19xqYPzYGcOVdI4XKtkHu"></re-captcha>
   </div>
-
-  <div class="form-group">
-    <button disabled class="btn btn-success btn-block">Sign up</button>
+-->
+  <div class="bottom-row">
+  <div class="form-group col-4">
+    <button (click)="registerUser()" class="btn btn-success btn-block">Sign up</button>
   </div>
-</form>
+  </div>
+
+</div>

@@ -62,6 +62,10 @@ export class DataService {
     public getCurrentUser(): any {
         return this.http.get<User>(this.baseUrl + '/session');
     }
+
+    public registerUser(userData: any): Observable<any> {
+        return this.http.post(this.baseUrl + '/register/', userData);
+    }
     
 }
 
