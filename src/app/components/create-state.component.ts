@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 import { StateView } from '../models/state_view'
-import { DataService } from '../data.service';
+import { DataService } from '../services/data.service';
 import { environment } from '../../environments/environment';
 
 @Component({

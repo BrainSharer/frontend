@@ -14,6 +14,7 @@ import { CreateStateComponent } from './components/create-state.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ContactComponent } from './components/contact/contact.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { ContactComponent } from './components/contact/contact.component';
         NgbModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        DragDropModule
+        DragDropModule,
+        ToastrModule.forRoot()
     ],
     providers: [],
     bootstrap: [AppComponent]

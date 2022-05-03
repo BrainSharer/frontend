@@ -1,4 +1,4 @@
-import { DataService } from '../data.service';
+import { DataService } from '../services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable, OperatorFunction } from 'rxjs';

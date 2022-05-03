@@ -3,10 +3,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { environment } from '../environments/environment';
-import { State } from './models/state';
-import { StateView } from './models/state_view';
-import { User } from './models/user';
+import { environment } from '../../environments/environment';
+import { StateView } from '../models/state_view';
+import { User } from '../models/user';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -63,8 +62,8 @@ export class DataService {
         return this.http.get<User>(this.baseUrl + '/session');
     }
 
-    public registerUser(userData: any): Observable<any> {
-        return this.http.post(this.baseUrl + '/register/', userData);
+    public register({ userData }: { userData: User; }): Observable<User> {
+        return this.http.post<User>(this.baseUrl + '/register/', userData);
     }
     
 }
