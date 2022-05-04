@@ -14,6 +14,7 @@ export class HeaderComponent {
     constructor(private readonly dataService: DataService,) { 
         this.dataService.getCurrentUser().subscribe((resp: User) => {
             this.user = resp;
+            console.log(this.user);
             if (this.user.user_id > 0) {
                 this.user = resp;
             } else {

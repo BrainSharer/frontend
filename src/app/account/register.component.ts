@@ -5,6 +5,7 @@ import { User } from '../models/user';
 import { DataService } from '../services/data.service';
 import { NotificationService } from '../services/notification';
 import Validation from '../utils/validation';
+import { ValidateEntry } from '../utils/validate.existing';
 
 @Component({
     selector: 'app-register',
@@ -31,7 +32,8 @@ export class RegisterComponent implements OnInit {
         private formBuilder: FormBuilder,
         private router: Router,
         private dataService: DataService,
-        private notificationService: NotificationService
+        private notificationService: NotificationService,
+
     ) { }
 
     ngOnInit() {
@@ -42,7 +44,8 @@ export class RegisterComponent implements OnInit {
                     [
                         Validators.required,
                         Validators.minLength(3),
-                        Validators.maxLength(20)
+                        Validators.maxLength(20),
+                        ValidateEntry.existingEntryValidator()
                     ]
                 ],
                 first_name: ['', Validators.required],

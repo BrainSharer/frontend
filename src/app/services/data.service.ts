@@ -62,6 +62,14 @@ export class DataService {
         return this.http.get<User>(this.baseUrl + '/session');
     }
 
+    public validateEmail(email: string): any {
+        return this.http.get<any>(this.baseUrl + '/validate?email=' + email);
+    }
+
+    public validateUsername(username: string): any {
+        return this.http.get<any>(this.baseUrl + '/validate/?username=' + username);
+    }
+
     public register({ userData }: { userData: User; }): Observable<User> {
         return this.http.post<User>(this.baseUrl + '/register/', userData);
     }
