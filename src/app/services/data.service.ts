@@ -67,8 +67,20 @@ export class DataService {
     }
 
     public validateUsername(username: string): any {
-        return this.http.get<any>(this.baseUrl + '/validate/?username=' + username);
+        return this.http.get<any>(this.baseUrl + '/validate/?username=' + username)
     }
+
+    public findByUsernamexxx(username: string): Observable<any> {
+        return this.http.get<any>(this.baseUrl + '/validate/?username=' + username)
+        .pipe(
+            map((data: any) => {
+                return data;
+            }), catchError(error => {
+                return throwError(() => new Error('Error: ' + error))
+            })
+        )
+      }
+
 
     public register({ userData }: { userData: User; }): Observable<User> {
         return this.http.post<User>(this.baseUrl + '/register/', userData);

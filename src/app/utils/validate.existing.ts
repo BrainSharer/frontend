@@ -1,35 +1,31 @@
-import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { User } from '../models/user';
+import { AbstractControl, AsyncValidatorFn, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { DataService } from '../services/data.service';
 
-export class ValidateEntry {
-
-    user!: User;
-
-    constructor(private dataService: DataService) { }
-
-    /*
-    this.dataService.getData(url).subscribe(response => {
-        this.data = response.results;
-        this.numberOfPages = response.count;
-        console.log(this.numberOfPages);
-    */
-
-    /** A user's name/email can't exist already in the database */
-    static existingEntryValidator(): ValidatorFn {
-
-      
-
+export class UsernameValidator {
+    static createValidator(dataService: DataService): AsyncValidatorFn {
+        return (control: AbstractControl): Observable<ValidationErrors> => {
+            return dataService.validateUsername(control.value)
+                .pipe(
+                    map((response: any) => {
+                        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxx');
+                        const c = response['count'];
+                        return c === '1' ? { existing: true } : null;
+                    })
+                );
+        };
+    }
+    static createValidatorvvv(dataService: DataService): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
-
-            const existing = "xxxx";
-
-            if (control?.value === existing) {
-                return { existing: true };
-            } else {
-                return null;
-            }
-
+            return dataService.validateUsername(control.value)
+                .pipe(
+                    map((response: any) => {
+                        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxx');
+                        const c = response['count'];
+                        return c === '1' ? { existing: true } : null;
+                    })
+                );
         };
     }
 

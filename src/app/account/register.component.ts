@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, 
+    Validators, ValidationErrors, ValidatorFn} from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from '../models/user';
 import { DataService } from '../services/data.service';
 import { NotificationService } from '../services/notification';
 import Validation from '../utils/validation';
-import { ValidateEntry } from '../utils/validate.existing';
+import { UsernameValidator } from '../utils/validate.existing';
+import { map, catchError } from 'rxjs/operators';
 
 @Component({
     selector: 'app-register',
@@ -45,7 +46,7 @@ export class RegisterComponent implements OnInit {
                         Validators.required,
                         Validators.minLength(3),
                         Validators.maxLength(20),
-                        ValidateEntry.existingEntryValidator()
+                        UsernameValidator.createValidator(this.dataService)
                     ]
                 ],
                 first_name: ['', Validators.required],
@@ -66,6 +67,7 @@ export class RegisterComponent implements OnInit {
             }
         );
     }
+
 
     get f(): { [key: string]: AbstractControl } {
         return this.addForm.controls;
