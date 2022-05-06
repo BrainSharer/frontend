@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { StateView } from '../models/state_view';
@@ -62,29 +62,33 @@ export class DataService {
         return this.http.get<User>(this.baseUrl + '/session');
     }
 
-    public validateEmail(email: string): any {
-        return this.http.get<any>(this.baseUrl + '/validate?email=' + email);
+
+    public findByEmail(email: string): Observable<any> {
+        return this.http.get<any>(this.baseUrl + '/validate/?email=' + email)
+            .pipe(
+                map((response: Response) => {
+                    return response;
+                }), catchError(error => {
+                    return throwError(() => new Error('Error: ' + error))
+                })
+            )
     }
 
-    public validateUsername(username: string): any {
+    public findByUsername(username: string): Observable<any> {
         return this.http.get<any>(this.baseUrl + '/validate/?username=' + username)
+            .pipe(
+                map((response: Response) => {
+                    return response;
+                }), catchError(error => {
+                    return throwError(() => new Error('Error: ' + error))
+                })
+            )
     }
-
-    public findByUsernamexxx(username: string): Observable<any> {
-        return this.http.get<any>(this.baseUrl + '/validate/?username=' + username)
-        .pipe(
-            map((data: any) => {
-                return data;
-            }), catchError(error => {
-                return throwError(() => new Error('Error: ' + error))
-            })
-        )
-      }
 
 
     public register({ userData }: { userData: User; }): Observable<User> {
         return this.http.post<User>(this.baseUrl + '/register/', userData);
     }
-    
+
 }
 

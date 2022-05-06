@@ -1,32 +1,26 @@
-import { AbstractControl, AsyncValidatorFn, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { AbstractControl,  AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DataService } from '../services/data.service';
 
-export class UsernameValidator {
-    static createValidator(dataService: DataService): AsyncValidatorFn {
-        return (control: AbstractControl): Observable<ValidationErrors> => {
-            return dataService.validateUsername(control.value)
-                .pipe(
-                    map((response: any) => {
-                        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxx');
-                        const c = response['count'];
-                        return c === '1' ? { existing: true } : null;
-                    })
-                );
-        };
-    }
-    static createValidatorvvv(dataService: DataService): ValidatorFn {
-        return (control: AbstractControl): ValidationErrors | null => {
-            return dataService.validateUsername(control.value)
-                .pipe(
-                    map((response: any) => {
-                        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxx');
-                        const c = response['count'];
-                        return c === '1' ? { existing: true } : null;
-                    })
-                );
-        };
-    }
+export function existingUsernameValidator(userService: DataService): AsyncValidatorFn {
+    return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
+      return userService.findByUsername(control.value).pipe(map(
+        (data) => {
+            console.log("The result is : " + data.count)
+          return (data.count > 0) ? { "existing": true } : null;
+        }
+      ));
+    };
+  } 
 
-}
+  export function existingEmailValidator(userService: DataService): AsyncValidatorFn {
+    return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
+      return userService.findByEmail(control.value).pipe(map(
+        (data) => {
+            console.log("The result is : " + data.count)
+          return (data.count > 0) ? { "existing": true } : null;
+        }
+      ));
+    };
+  } 

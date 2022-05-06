@@ -19,7 +19,7 @@
           Username must not exceed 20 characters
         </div>
         <div *ngIf="f['username'].errors['existing']">
-          Username already exists, please choose another.
+          That username has already been taken, please choose another.
         </div>
       </div>
     </div>
@@ -49,6 +49,9 @@
       <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
         <div *ngIf="f['email'].errors['required']">Email is required</div>
         <div *ngIf="f['email'].errors['email']">Email is invalid</div>
+        <div *ngIf="f['email'].errors['existing']">
+          That email has already been taken, please choose another.
+        </div>
       </div>
     </div>
 

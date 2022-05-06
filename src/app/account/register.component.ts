@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, 
-    Validators, ValidationErrors, ValidatorFn} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
 import { NotificationService } from '../services/notification';
+import { existingUsernameValidator, existingEmailValidator } from '../utils/validate.existing';
 import Validation from '../utils/validation';
-import { UsernameValidator } from '../utils/validate.existing';
-import { map, catchError } from 'rxjs/operators';
 
 @Component({
     selector: 'app-register',
@@ -15,13 +13,49 @@ import { map, catchError } from 'rxjs/operators';
 })
 export class RegisterComponent implements OnInit {
     addForm: FormGroup = new FormGroup({
-        username: new FormControl(''),
-        first_name: new FormControl(''),
-        last_name: new FormControl(''),
-        email: new FormControl(''),
-        password: new FormControl(''),
-        password2: new FormControl('')
+        username: new FormControl(null, {
+            validators: [
+              Validators.required,
+              Validators.minLength(3),
+              Validators.maxLength(20),
+            ],
+            asyncValidators: [existingUsernameValidator(this.dataService)],
+            updateOn: 'change'
+          }),
+        first_name: new FormControl('', {
+            validators: [
+              Validators.required,
+              Validators.minLength(2),
+              Validators.maxLength(20),
+            ]}),
+        last_name: new FormControl('', {
+            validators: [
+              Validators.required,
+              Validators.minLength(2),
+              Validators.maxLength(60),
+            ]}),
+        email: new FormControl('', {
+            validators: [
+              Validators.required,
+              Validators.email],
+              asyncValidators: [existingEmailValidator(this.dataService)],
+              updateOn: 'change'
+            }),
+        password: new FormControl('', {
+            validators: [
+              Validators.required,
+              Validators.minLength(8),
+              Validators.maxLength(40),
+            ]}),
+        password2: new FormControl('', {
+            validators: [
+              Validators.required,
+              Validators.minLength(8),
+              Validators.maxLength(40),
+              Validation.match('password', 'password2')
+            ]})
     });
+
     loading = false;
     submitted = false;
 
@@ -30,25 +64,16 @@ export class RegisterComponent implements OnInit {
     }
 
     constructor(
-        private formBuilder: FormBuilder,
         private router: Router,
         private dataService: DataService,
         private notificationService: NotificationService,
-
     ) { }
 
     ngOnInit() {
+        /*
         this.addForm = this.formBuilder.group(
             {
-                username: [
-                    '',
-                    [
-                        Validators.required,
-                        Validators.minLength(3),
-                        Validators.maxLength(20),
-                        UsernameValidator.createValidator(this.dataService)
-                    ]
-                ],
+                username: ['',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
                 first_name: ['', Validators.required],
                 last_name: ['', Validators.required],
                 email: ['', [Validators.required, Validators.email]],
@@ -64,10 +89,10 @@ export class RegisterComponent implements OnInit {
             },
             {
                 validators: [Validation.match('password', 'password2')]
-            }
+            },
         );
+        */
     }
-
 
     get f(): { [key: string]: AbstractControl } {
         return this.addForm.controls;
@@ -83,6 +108,7 @@ export class RegisterComponent implements OnInit {
         if (this.addForm.invalid) {
             return;
         }
+
         this.dataService.register({ userData: this.addForm.value })
             .subscribe({
                 next: () => {
