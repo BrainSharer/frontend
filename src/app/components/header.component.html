@@ -2,7 +2,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #1bd889;">
 
-        <a class="navbar-brand" href="#">Princeton/UCSD Brainsharer</a>
+        <a class="navbar-brand main-header" href="#">Princeton/UCSD Brainsharer</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -50,9 +50,17 @@
             </ul>
 
             <ul class="navbar-nav ml-auto">
-                <div *ngIf="(authService.isLoggedIn | async)" style="margin-right:10px;">
-                    <p>{{authService.getUsername()}}</p>
-                </div>
+
+                <li class="nav-item dropdown" *ngIf="(authService.isLoggedIn | async)" style="margin-right:10px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        {{authService.getUsername()}}</a>
+                    <ul class="dropdown-menu"  aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" (click)="authService.logout()">Logout</a></li>
+                    </ul>
+                </li>
+
+
                 
                 <div *ngIf="!(authService.isLoggedIn | async)" style="margin-right:10px;">
                     <a class="btn btn-primary" routerLink="/account/login" role="button" style="margin-right:5px;">Log

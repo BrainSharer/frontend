@@ -36,3 +36,7 @@
   transform-origin: left;
   transform: scaleX(1);
 }
+
+.main-header {
+  margin-left: 10px;
+}

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { NotificationService } from '../services/notification';
 
 import { environment } from '../../environments/environment';
 import { User } from '../models/user';
@@ -22,7 +24,10 @@ export class AuthService {
   private token: string = "";
   API_URL = environment.API_URL;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private router: Router,
+    private httpClient: HttpClient, 
+    private notificationService: NotificationService) { }
 
   public login(username: string, password: string) {
     return this.httpClient.post<any>(this.API_URL + '/login', { username: username, password: password }, httpOptions)
@@ -42,7 +47,6 @@ export class AuthService {
   }
 
   public getUsername() {
-    console.log('username ' + sessionStorage.getItem('username'));
     return sessionStorage.getItem('username');
   }
 
@@ -81,7 +85,6 @@ export class AuthService {
   }
 
   private tokenAvailable(): boolean {
-    this.user = JSON.parse(sessionStorage.getItem('user') || '{}');
     return !!sessionStorage.getItem('token');
   }
 
@@ -89,6 +92,12 @@ export class AuthService {
     return this.sessionActive.asObservable(); // {2}
   }
 
-  public logout() {}
+  public logout() {
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('token');
+    this.sessionActive = new BehaviorSubject<boolean>(false);
+    this.notificationService.showWarning('You have been logged out','Success');
+    this.router.navigate(['/home']);
+  }
 
 }
