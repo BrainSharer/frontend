@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
 import { NotificationService } from '../services/notification';
@@ -12,6 +12,8 @@ import Validation from '../utils/validation';
     styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+    public captchaResolved : boolean = false;
+
     addForm: FormGroup = new FormGroup({
         username: new FormControl(null, {
             validators: [
@@ -51,16 +53,14 @@ export class RegisterComponent implements OnInit {
             validators: [
               Validators.required,
               Validators.minLength(8),
-              Validators.maxLength(40),
-              Validation.match('password', 'password2')
+              Validators.maxLength(40)
             ]})
     });
 
-    loading = false;
-    submitted = false;
+    submitted: boolean = false;
 
-    resolved(captchaResponse: string) {
-        console.log(`Resolved captcha with response: ${captchaResponse}`);
+    checkCaptcha(captchaResponse : string) {
+        this.captchaResolved = (captchaResponse && captchaResponse.length > 0) ? true : false
     }
 
     constructor(
@@ -69,29 +69,8 @@ export class RegisterComponent implements OnInit {
         private notificationService: NotificationService,
     ) { }
 
-    ngOnInit() {
-        /*
-        this.addForm = this.formBuilder.group(
-            {
-                username: ['',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
-                first_name: ['', Validators.required],
-                last_name: ['', Validators.required],
-                email: ['', [Validators.required, Validators.email]],
-                password: [
-                    '',
-                    [
-                        Validators.required,
-                        Validators.minLength(8),
-                        Validators.maxLength(40)
-                    ]
-                ],
-                password2: ['', Validators.required]
-            },
-            {
-                validators: [Validation.match('password', 'password2')]
-            },
-        );
-        */
+    ngOnInit() {        
+        this.addForm.setValidators(Validation.match('password', 'password2'));
     }
 
     get f(): { [key: string]: AbstractControl } {

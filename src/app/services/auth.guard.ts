@@ -6,12 +6,12 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  private user: User = new User();
+  private user: Partial<User> = {};
 
   constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    this.user = JSON.parse(sessionStorage.getItem('user'));
+    this.user = JSON.parse(sessionStorage.getItem('user') || '{}');
     if (sessionStorage.getItem('user')) {
       this.authService.user = this.user;
       this.setExpiration();
@@ -25,10 +25,12 @@ export class AuthGuard implements CanActivate {
 
   private setExpiration() {
     let token = sessionStorage.getItem('token');
-    const token_parts = token.split(/\./);
-    const token_decoded = JSON.parse(window.atob(token_parts[1]));
-    const token_expires = new Date(token_decoded.exp * 1000);
-    this.authService.token_expires = token_expires;
+    if (token) {
+      const token_parts = token.split(/\./);
+      const token_decoded = JSON.parse(window.atob(token_parts[1]));
+      const token_expires = new Date(token_decoded.exp * 1000);
+      this.authService.token_expires = token_expires;
+    }
   }
 
 

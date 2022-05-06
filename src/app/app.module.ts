@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -15,6 +15,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ContactComponent } from './components/contact/contact.component';
 import { ToastrModule } from 'ngx-toastr';
+
+
+import { InterceptService } from './services/intercept.service';
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './services/auth.guard';
 
 @NgModule({
     declarations: [
@@ -35,7 +40,8 @@ import { ToastrModule } from 'ngx-toastr';
         DragDropModule,
         ToastrModule.forRoot()
     ],
-    providers: [],
+    providers: [InterceptService, { provide: HTTP_INTERCEPTORS, useClass: InterceptService, multi: true },
+        AuthService, AuthGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

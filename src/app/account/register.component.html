@@ -83,8 +83,14 @@
         </div>
       </div>
     </div>
-    <div class="form-group bottom-row">
-      <button type="submit" class="btn btn-primary">Register</button>
+    
+    <div class="form-group col-4 re-captcha">
+      <re-captcha (resolved)="checkCaptcha($event)" name="recaptchaReactive" 
+      siteKey="6Lft4F0eAAAAAByzzWQ19xqYPzYGcOVdI4XKtkHu"></re-captcha>
+    </div>
+
+      <div class="form-group bottom-row">
+      <button [disabled]="!captchaResolved" type="submit" class="btn btn-primary">Register</button>
     </div>
   </form>
 </div>
@@ -92,8 +98,3 @@
 
 
 
-<!--
-  <div class="form-group">
-    <re-captcha (resolved)="resolved($event)" siteKey="6Lft4F0eAAAAAByzzWQ19xqYPzYGcOVdI4XKtkHu"></re-captcha>
-  </div>
--->

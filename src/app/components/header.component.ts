@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user';
-import { DataService } from '../services/data.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'app-header',
@@ -11,7 +11,8 @@ export class HeaderComponent {
 
     user: User | undefined;
     
-    constructor(private readonly dataService: DataService,) { 
+    constructor(public authService: AuthService) {
+        /* 
         this.dataService.getCurrentUser().subscribe((resp: User) => {
             this.user = resp;
             console.log(this.user);
@@ -21,6 +22,7 @@ export class HeaderComponent {
                 this.user = undefined;
             }
         });
+        */
     }
 
 

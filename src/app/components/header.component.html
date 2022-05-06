@@ -41,7 +41,7 @@
                 <li class="nav-item">
                     <a class="nav-link" routerLink="home">Browse views</a>
                 </li>
-                <li class="nav-item" *ngIf="user">
+                <li class="nav-item" *ngIf="(authService.isLoggedIn | async)">
                     <a class="nav-link" routerLink="create-view">Create view</a>
                 </li>
                 <li class="nav-item">
@@ -50,11 +50,11 @@
             </ul>
 
             <ul class="navbar-nav ml-auto">
-                <div *ngIf="user" style="margin-right:10px;">
-                    <p>{{user.username}}</p>
+                <div *ngIf="(authService.isLoggedIn | async)" style="margin-right:10px;">
+                    <p>{{authService.getUsername()}}</p>
                 </div>
                 
-                <div *ngIf="!user" style="margin-right:10px;">
+                <div *ngIf="!(authService.isLoggedIn | async)" style="margin-right:10px;">
                     <a class="btn btn-primary" routerLink="/account/login" role="button" style="margin-right:5px;">Log
                         in</a>
                     <a class="btn btn-secondary" routerLink="/account/register" role="button">Sign up</a>

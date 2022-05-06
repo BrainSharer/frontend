@@ -8,7 +8,6 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AlertService } from '../services/alert.service';
 import { AuthService } from './auth.service';
 
 
@@ -18,7 +17,7 @@ import { AuthService } from './auth.service';
 
 export class InterceptService implements HttpInterceptor {
 
-  constructor(private alertService: AlertService, private authService: AuthService) { }
+  constructor(private authService: AuthService) { }
 
   // intercept request and add token
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -36,10 +35,10 @@ export class InterceptService implements HttpInterceptor {
         if (event instanceof HttpResponse) { }
       }, error => {
         // http response status code
-        this.alertService.error(error.message);
+        // this.alertService.error(error.message);
         if (error.status === 401) {
           this.authService.logout();
-          this.alertService.error('Your session has expired.');
+          // this.alertService.error('Your session has expired.');
         }
 
       })

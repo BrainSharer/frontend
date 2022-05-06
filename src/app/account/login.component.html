@@ -1,18 +1,5 @@
 <div class="container">
 
-	<div class="row justify-content-center">
-		<div class="col-8">
-			<p>This page is under construction and all functionality has been disabled.
-				We are expecting all site functionality to be available in the summer of 2022.
-			</p>
-			<p>
-				You can contact us by sending a request via email to Duane Rinehart: drinehart at ucsd.edu
-			</p>
-
-		</div>
-	</div>
-
-
 	<div class="row">
 		<div class="col">
 			<a class="btn" href="{{google_url}}">
@@ -66,23 +53,43 @@
 		</div>
 	</div>
 
-
-	<form novalidate>
-
-		<div class="form-group">
-			<label>Email</label>
-			<input type="email" class="form-control">
-		</div>
-
-		<div class="form-group">
-			<label>Password</label>
-			<input type="password" class="form-control">
-		</div>
-
-		<div class="form-group">
-			<button disabled class="btn btn-primary btn-block">Submit</button>
-		</div>
-	</form>
-
-
 </div>
+
+<div class="login-form">
+	<form [formGroup]="loginForm" (ngSubmit)="login()">
+  
+	  <div class="form-group col-4">
+		<label>Username</label>
+		<input type="text" formControlName="username" class="form-control"
+		  [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" />
+		<div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+		  <div *ngIf="f['username'].errors['required']">Username is required</div>
+		</div>
+	  </div>
+  
+	  <div class="form-group col-4">
+		<label>Password</label>
+		<input type="password" formControlName="password" class="form-control"
+		  [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+		<div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+		  <div *ngIf="f['password'].errors['required']">Password is required</div>
+		  <div *ngIf="f['password'].errors['minlength']">
+			Password must be at least 8 characters
+		  </div>
+		  <div *ngIf="f['password'].errors['maxlength']">
+			Username must not exceed 40 characters
+		  </div>
+		</div>
+	  </div>
+	  
+	  <div class="form-group col-4 re-captcha">
+		<re-captcha (resolved)="checkCaptcha($event)" name="recaptchaReactive" 
+		siteKey="6Lft4F0eAAAAAByzzWQ19xqYPzYGcOVdI4XKtkHu"></re-captcha>
+	  </div>
+  
+		<div class="form-group bottom-row">
+		<button [disabled]="!captchaResolved" type="submit" class="btn btn-primary">Register</button>
+	  </div>
+	</form>
+  </div>
+  
