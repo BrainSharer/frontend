@@ -44,7 +44,6 @@ export class HomeComponent implements OnInit {
     this.dataService.getData(url).subscribe(response => {
       this.data = response.results;
       this.numberOfPages = response.count;
-      console.log(this.numberOfPages);
 
       if (response.next) {
         this.next = response.next;
@@ -59,7 +58,6 @@ export class HomeComponent implements OnInit {
 
   // function fetches the next paginated items by using the url in the next property
   public fetchNext() {
-    console.log("is this beging called?")
     this.setData(this.next);
   }
 

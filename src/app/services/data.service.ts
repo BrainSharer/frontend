@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { StateView } from '../models/state_view';
@@ -19,13 +19,13 @@ const httpOptions = {
 })
 export class DataService {
 
-    baseUrl = environment.API_URL;
+    API_URL = environment.API_URL;
 
-    constructor(private http: HttpClient) { }
+    constructor(private httpClient: HttpClient) { }
 
 
     public getStates(url: string): Observable<any> {
-        return this.http.get(url).
+        return this.httpClient.get(url).
             pipe(
                 map((data: any) => {
                     return data;
@@ -36,7 +36,7 @@ export class DataService {
     }
     // Generic get. Can be used by any url as it returns any
     public getData(url: string): Observable<any> {
-        return this.http.get(url).
+        return this.httpClient.get(url).
             pipe(
                 map((data: any) => {
                     return data;
@@ -50,7 +50,7 @@ export class DataService {
     /** POST: add a new StateView to the database */
     public addStateView(stateView: StateView[]): Observable<number> {
         console.log('addStateView' + stateView);
-        return this.http.post<number>(this.baseUrl + '/createstate', stateView, httpOptions)
+        return this.httpClient.post<number>(this.API_URL + '/createstate', stateView, httpOptions)
             .pipe(
                 catchError(error => {
                     return throwError(() => new Error('Error: ' + error))
@@ -58,13 +58,9 @@ export class DataService {
             );
     }
 
-    public getCurrentUser(): any {
-        return this.http.get<User>(this.baseUrl + '/session');
-    }
-
 
     public findByEmail(email: string): Observable<any> {
-        return this.http.get<any>(this.baseUrl + '/validate/?email=' + email)
+        return this.httpClient.get<any>(this.API_URL + '/validate/?email=' + email)
             .pipe(
                 map((response: Response) => {
                     return response;
@@ -75,7 +71,7 @@ export class DataService {
     }
 
     public findByUsername(username: string): Observable<any> {
-        return this.http.get<any>(this.baseUrl + '/validate/?username=' + username)
+        return this.httpClient.get<any>(this.API_URL + '/validate/?username=' + username)
             .pipe(
                 map((response: Response) => {
                     return response;
@@ -87,7 +83,7 @@ export class DataService {
 
 
     public register({ userData }: { userData: User; }): Observable<User> {
-        return this.http.post<User>(this.baseUrl + '/register/', userData);
+        return this.httpClient.post<User>(this.API_URL + '/register/', userData);
     }
 
 }

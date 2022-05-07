@@ -6,7 +6,15 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  private user: Partial<User> = {};
+  private user: User = {
+    id:0, 
+    username:'',
+    first_name:'',
+    last_name:'',
+    email:'',
+    password:'',
+    password2:''};
+
 
   constructor(private authService: AuthService, private router: Router) { }
 
