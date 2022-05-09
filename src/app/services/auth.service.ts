@@ -130,6 +130,7 @@ export class AuthService {
 }
 
   public get isLoggedIn(): Observable<boolean> {
+    /*
     if (this.user.id === 0) {
       console.log('user is NOT defined, fetching from Django');
       this.getDjangoUser()
@@ -144,6 +145,7 @@ export class AuthService {
         }
       });
     }
+    */
     const loggedInStatus = this.sessionActive.asObservable();
     return  loggedInStatus;
   }

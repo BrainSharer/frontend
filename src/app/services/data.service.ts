@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -13,6 +13,12 @@ const httpOptions = {
         // Authorization: 'my-auth-token'
     })
 };
+
+const headers = new HttpHeaders()
+    .append(
+        'Content-Type',
+        'application/json'
+    );
 
 @Injectable({
     providedIn: 'root'
@@ -46,10 +52,8 @@ export class DataService {
             )
     }
 
-    // StateView POST
     /** POST: add a new StateView to the database */
     public addStateView(stateView: StateView[]): Observable<number> {
-        console.log('addStateView' + stateView);
         return this.httpClient.post<number>(this.API_URL + '/createstate', stateView, httpOptions)
             .pipe(
                 catchError(error => {

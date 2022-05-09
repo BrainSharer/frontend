@@ -4,6 +4,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { StateView } from '../models/state_view'
 import { DataService } from '../services/data.service';
 import { environment } from '../../environments/environment';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-create-state',
@@ -33,7 +34,10 @@ export class CreateStateComponent implements OnInit {
     "lab_name": ''
     }];
 
-  constructor(private dataService: DataService) { }
+  constructor(
+    private authService: AuthService,
+    private dataService: DataService
+    ) { }
 
   setData(url: string) {
     this.dataService.getData(url).subscribe(response => {
