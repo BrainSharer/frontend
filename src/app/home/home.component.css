@@ -7,6 +7,8 @@
 
 .main-page {
   margin-top: 4px;
+  background-image: url('/assets/250.png');
+  background-size: cover;
 }
 
 .container>.card img {
@@ -23,7 +25,7 @@ a {
 }
 
 a:hover {
-  background-color: #1bd889;
+  background-color: #CCCCCC;
   color: #000000;
   box-shadow: 8px 8px 3px #8A1BD8;
 }

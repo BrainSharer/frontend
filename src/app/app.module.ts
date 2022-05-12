@@ -20,6 +20,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { InterceptService } from './services/intercept.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth.guard';
+import { FilterPipe } from './utils/filter.pipe';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { AuthGuard } from './services/auth.guard';
         HeaderComponent,
         CreateStateComponent,
         ContactComponent,
+        FilterPipe,
     ],
     imports: [
         BrowserModule,
