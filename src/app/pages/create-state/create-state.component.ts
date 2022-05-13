@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
-import { StateView } from '../models/state_view'
-import { DataService } from '../services/data.service';
-import { environment } from '../../environments/environment';
-import { AuthService } from '../services/auth.service';
+import { StateView } from '../../_models/state_view'
+import { DataService } from '../../_services/data.service';
+import { environment } from '../../../environments/environment';
+import { AuthService } from '../../_services/auth.service';
 
 @Component({
   selector: 'app-create-state',

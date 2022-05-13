@@ -9,3 +9,16 @@
 .re-captcha {
     margin: 10px 0px 0px 0px;
 }
+
+.brain::before {
+    content: ""; 
+    z-index: -1;
+    background-image: url('/assets/250.png');
+    background-size: cover;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 0.2;
+  }

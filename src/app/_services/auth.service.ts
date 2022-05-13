@@ -4,10 +4,10 @@ import { map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { NotificationService } from '../services/notification';
+import { NotificationService } from './notification';
 
 import { environment } from '../../environments/environment';
-import { User } from '../models/user';
+import { User } from '../_models/user';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

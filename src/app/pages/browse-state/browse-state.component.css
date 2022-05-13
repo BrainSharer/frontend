@@ -1,0 +1,25 @@
+
+/*
+PAGE BACKGROUND
+*/
+section {
+  margin:10px;
+}
+
+section::before {
+  content: ""; 
+  z-index: -1;
+  background-image: url('/assets/250.png');
+  background-size: cover;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.2;
+}
+.search-container {
+  border-radius: 5px;
+  padding: 20px;
+  background: rgba(76, 175, 80, 0.3) /* Green background with 30% opacity */
+}

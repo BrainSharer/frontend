@@ -3,9 +3,10 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+
 import { environment } from '../../environments/environment';
-import { StateView } from '../models/state_view';
-import { User } from '../models/user';
+import { StateView } from '../_models/state_view';
+import { User } from '../_models/user';
 
 const httpOptions = {
     headers: new HttpHeaders({

@@ -1,0 +1,23 @@
+<div class="container">
+    <div *ngFor="let state of filteredStates | filter: searchByKeyword: 'name'" class="card">
+        <a class="card-body card-a" target="_blank" href="{{ngUrl}}?id={{state.id}}">
+            <h5 class="card-title">{{state.comments}}</h5>
+            <p class="card-text">Lab: {{state.lab }}</p>
+            <p class="card-text">Read only: {{state.readonly }}</p>
+            <li *ngFor="let subItem of state.neuroglancer_state['layers']">{{subItem.name}}</li>
+        </a>
+    </div>
+</div>
+
+<div class="container" style="margin-top:10px;">
+    <nav aria-label="Page navigation">
+        <ul class="pagination state-pagination">
+            <li class="page-item">
+                <button class="page-link" [disabled]="numberOfPages <= 10" (click)="fetchPrevious()">Previous</button>
+            </li>
+            <li class="page-item">
+                <button class="page-link" [disabled]="numberOfPages <= 10" (click)="fetchNext()">Next</button>
+            </li>
+        </ul>
+    </nav>
+</div>

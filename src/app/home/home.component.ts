@@ -1,8 +1,8 @@
-import { DataService } from '../services/data.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
-import { State } from '../models/state';
+import { DataService } from '../_services/data.service';
+import { State } from '../_models/state';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   data: State[] = [];
   baseUrl = environment.API_URL;
   apiUrl = this.baseUrl + '/neuroglancer'
+  ngUrl = environment.NG_URL;
   next: string = '';
   previous: string = '';
   numberOfPages: number = 0;

@@ -1,0 +1,21 @@
+<!-- MAIN CONTENT; SHOPPING FOR VIEWS -->
+<section>
+
+  <div class="row">
+
+    <div class="col-3">
+      <div class="card search-container">
+        <div class="card-body">
+          <app-search (groupFilters)="filters = $event"></app-search>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-9">
+      <app-browse-state-list [groupFilters]="filters" [searchByKeyword]="searchText"></app-browse-state-list>
+    </div>
+
+
+  </div>
+
+</section>

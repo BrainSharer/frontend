@@ -1,35 +1,27 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ToastrModule } from 'ngx-toastr';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HomeComponent } from './home/home.component';
-
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HeaderComponent } from './components/header.component';
-import { CreateStateComponent } from './components/create-state.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ContactComponent } from './components/contact/contact.component';
-import { ToastrModule } from 'ngx-toastr';
-
-
-import { InterceptService } from './services/intercept.service';
-import { AuthService } from './services/auth.service';
-import { AuthGuard } from './services/auth.guard';
-import { FilterPipe } from './utils/filter.pipe';
+import { HeaderComponent } from './_shared/header/header.component';
+import { CreateStateComponent } from './pages/create-state/create-state.component';
+import { ContactComponent } from './pages/contact/contact.component';
+import { InterceptService } from './_services/intercept.service';
+import { AuthService } from './_services/auth.service';
+import { AuthGuard } from './_services/auth.guard';
 
 @NgModule({
     declarations: [
         AppComponent,
-        HomeComponent,
         HeaderComponent,
         CreateStateComponent,
         ContactComponent,
-        FilterPipe,
     ],
     imports: [
         BrowserModule,

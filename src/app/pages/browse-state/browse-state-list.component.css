@@ -1,0 +1,22 @@
+.container {
+    margin-top: 0px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(305px, 1fr));
+    grid-gap: 15px;
+  }
+  
+.card > a {
+    text-decoration: none;
+    background-color: #FFFFFF;
+    color: #000000;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #8A1BD8;
+  }
+  
+.card >  a:hover {
+    background-color: #CCCCCC;
+    color: #000000;
+    box-shadow: 8px 8px 3px #8A1BD8;
+  }
+  
