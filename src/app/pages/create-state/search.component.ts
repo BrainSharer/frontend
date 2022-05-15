@@ -53,7 +53,7 @@ export class SearchComponent implements OnInit  {
     });
   }
 
-  public fetchData(event: any, i: number, animal: string) {
+  public fetchData(event: any, i: number, animal: string): void {
     this.isCollapsed = i;
     /*
     this.dataService.getStateByAnimal(animal).subscribe(response => {
@@ -63,6 +63,12 @@ export class SearchComponent implements OnInit  {
     this.subStates = this.states.filter(element => {
       return element.group_name == animal;
     })
+  }
+
+  public toggleRightSide(isToggled: boolean, state_id: number): void {
+    console.log(isToggled);
+    console.log(state_id);
+
   }
 
 }

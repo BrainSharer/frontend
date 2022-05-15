@@ -37,24 +37,16 @@
             <div class="title">Data</div>
        
             <div *ngFor="let animal of animals; let i = index">
-                <button class="btn btn-group" (click)="fetchData($event, i, animal)">{{animal}}</button>
-                <div [id]="'collapseViewMore-' + i" [ngbCollapse]="i!==isCollapsed" class="card">
+                <button class="btn btn-default btn-sm" (click)="fetchData($event, i, animal)"><i class="fa fa-toggle-right" style="margin: 2px 2px;"></i> {{animal}}</button>
+                <div [id]="'collapseViewMore-' + i" [ngbCollapse]="i!==isCollapsed" class="collapsed-card">
                     <div *ngFor="let state of subStates">
-                        <li>{{state.layer_name}} {{state.description}}</li>
-                    </div>
-                    
+                            <div class="item-checkbox">
+                              <label class="collapsed-card-input">
+                                  <input type="checkbox" value="{{state.id}}" (change)="toggleRightSide($any($event.target)?.checked, state.id)">{{state.layer_name}} {{state.description}}</label>
+                            </div>
+                    </div>                    
                 </div>
             </div>
-
-            <!--
-            <div *ngFor="let item of animals; let i = index">
-                <button class="form-check-label" (click)="isCollapsed=i">{{item.animal_name}}</button>
-                <div [id]="'collapseViewMore-' + i" [ngbCollapse]="i!==isCollapsed" class="card">
-                    <div>fetch data here</div>
-                </div>
-            </div>
-            -->
-
 
         </div>
     </div>

@@ -9,3 +9,40 @@
     width: 200px;
     height: 150px;
 }
+
+.collapse-button {
+    border: none;
+}
+
+.collapsed-card {
+    background: #ccc;
+    margin-left: 4px;
+    padding: 4px;
+    border-radius: 5px;
+}
+
+
+.btn-default:hover, 
+.btn-default:focus, 
+.btn-default:active, 
+.btn-default.active, 
+.open .dropdown-toggle.btn-default { 
+ color: #ffffff;
+ border: none; 
+ background-color: #1F2838; 
+ border-color: #494F57; 
+} 
+
+div.item-checkbox {
+    width: 100%;
+    height: 100%;
+  }
+  
+  div.item-checkbox > label {
+    display: block;
+    padding: 2px 5px;
+  }
+  
+  div.item-checkbox > label > input {
+    margin-right: 5px;
+  }
