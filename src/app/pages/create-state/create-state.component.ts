@@ -1,97 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { Component} from '@angular/core';
 
-import { StateView } from '../../_models/state_view'
-import { DataService } from '../../_services/data.service';
-import { environment } from '../../../environments/environment';
-import { AuthService } from '../../_services/auth.service';
 
 @Component({
   selector: 'app-create-state',
   templateUrl: './create-state.component.html',
   styleUrls: ['./create-state.component.css']
 })
-export class CreateStateComponent implements OnInit {
-  ngOnInit(): void {
-    this.setData(this.apiUrl);
-}
-  data: StateView[] = [];
-  url_ID = 0;
-  baseUrl = environment.API_URL;
-  ngUrl = environment.NG_URL;
-  apiUrl = this.baseUrl + '/states'
-  next: string = '';
-  previous: string = '';
-  state_data: StateView[] = [{ 
-    "id": 0, 
-    "group_name": '',
-    "layer_name": '',
-    "description": 'Place items above this one.',
-    "url": '',
-    "layer_type": '',
-    "resolution": 0,
-    "zresolution": 0,
-    "lab_name": ''
-    }];
+export class CreateStateComponent  {
 
-  constructor(
-    private authService: AuthService,
-    private dataService: DataService
-    ) { }
+  searchText: string = '';
+  filters: Object = new Object;
 
-  setData(url: string) {
-    this.dataService.getData(url).subscribe(response => {
-      this.data = response.results;
+  constructor() {}
 
-      if (response.next) {
-        this.next = response.next;
-      }
-
-      if (response.previous) {
-        this.previous = response.previous;
-      }
-
-    });
-  }
-
-  // function fetches the next paginated items by using the url in the next property
-  fetchNext() {
-    this.setData(this.next);
-  }
-
-  // function fetches the previous paginated items by using the url in the previous property
-  fetchPrevious() {
-    this.setData(this.previous);
-  }
-
-  drop(event: CdkDragDrop<any[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    }
-  }
-
-  resolved(captchaResponse: string) {
-    console.log(`Resolved captcha with response: ${captchaResponse}`);
-  }
-
-  Submit(){
-    console.log(this.state_data);
-
-    this.dataService.addStateView(this.state_data)
-    .subscribe({
-      next: (res) => {
-        this.url_ID = res;
-        const redirecturl = this.ngUrl + '?id=' + this.url_ID;
-        window.location.href = redirecturl;
-      },
-      error: (e) => console.error(e)
-    });
-  }
 }

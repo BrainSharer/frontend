@@ -4,3 +4,17 @@ html, body { height: 100%; }
 body { 
     margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
 }
+
+
+.brain::before {
+    content: ""; 
+    z-index: -1;
+    background-image: url('/assets/250.png');
+    background-size: cover;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 0.2;
+  }

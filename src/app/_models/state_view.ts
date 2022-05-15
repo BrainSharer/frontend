@@ -1,6 +1,9 @@
 
 export interface StateView {    
     id: number;
+    lab_name: string;
+    active: boolean;
+    created: Date,
     group_name: string;
     layer_name: string;
     description: string;
@@ -8,7 +11,6 @@ export interface StateView {
     layer_type: string;
     resolution: number;
     zresolution: number;
-    lab_name: string;
+    updated: Date,
+    lab: number
     }
-
-

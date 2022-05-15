@@ -1,42 +1,22 @@
-<p>Create a Neuroglancer view by dragging data from the left to the right side of the box below.
-    When you have all the data you want on the right side, click Submit to open the data in
-    Neuroglancer.
-</p>
-<form class="my-form" #loginForm=ngForm (ngSubmit)="Submit()">
+<!-- MAIN CONTENT; SHOPPING FOR VIEWS -->
 
-    <div class="state-container">
+<section class="brain">
 
-        <div class="state-subcontainer">
-            <h4>Available data</h4>
+  <div class="row">
 
-            <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="data"
-                [cdkDropListConnectedTo]="[doneList]" class="state-list" (cdkDropListDropped)="drop($event)">
-                <div class="state-box" *ngFor="let item of data" cdkDrag>{{item.lab_name}} {{item.group_name}} {{item.layer_name}} {{item.description}}</div>
-            </div>
-
-            
-            <nav aria-label="Page navigation">
-                <ul class="pagination state-pagination">
-                  <li class="page-item"><a class="page-link" (click)="fetchPrevious()">Previous</a></li>
-                  <li class="page-item"><a class="page-link" (click)="fetchNext()">Next</a></li>
-                </ul>
-            </nav>
-
-
-
+    <div class="col-3">
+      <div class="card search-container">
+        <div class="card-body">
+          <app-search (groupFilters)="filters = $event"></app-search>
         </div>
-
-        <div class="state-subcontainer">
-            <h4>Data to use in Neuroglancer</h4>
-
-            <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="state_data"
-                [cdkDropListConnectedTo]="[todoList]" class="state-list" (cdkDropListDropped)="drop($event)">
-                <div class="state-box" *ngFor="let item of state_data" cdkDrag>{{item.lab_name}} {{item.group_name}} {{item.layer_name}} {{item.description}}</div>
-            </div>
-        </div>
+      </div>
     </div>
-    
-    <div class="submit-button">
-        <button class="btn btn-primary" type="submit">Submit</button>
+
+    <div class="col-9">
+      <app-create-state-list [groupFilters]="filters" [searchByKeyword]="searchText"></app-create-state-list>
     </div>
-</form>
+
+
+  </div>
+
+</section>

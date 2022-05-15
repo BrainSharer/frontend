@@ -52,6 +52,17 @@ export class DataService {
                 })
             )
     }
+    // Specific get for a state
+    public getStateByAnimal(animal: string): Observable<any> {
+        return this.httpClient.get(this.API_URL + '/states?animal=' + animal).
+            pipe(
+                map((data: any) => {
+                    return data;
+                }), catchError(error => {
+                    return throwError(() => new Error('Error: ' + error))
+                })
+            )
+    }
 
     /** POST: add a new StateView to the database */
     public addStateView(stateView: StateView[]): Observable<number> {

@@ -11,12 +11,11 @@
     color: #000000;
     border-style: solid;
     border-width: 2px;
-    border-color: #8A1BD8;
+    border-color: #A5C3A6;
   }
   
 .card >  a:hover {
-    background-color: #CCCCCC;
-    color: #000000;
-    box-shadow: 8px 8px 3px #8A1BD8;
+  box-shadow: 2px 2px 15px #fd9a6ce5;
+  transform: scale(1.02)
   }
   

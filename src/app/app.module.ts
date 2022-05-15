@@ -10,18 +10,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './_shared/header/header.component';
-import { CreateStateComponent } from './pages/create-state/create-state.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { InterceptService } from './_services/intercept.service';
 import { AuthService } from './_services/auth.service';
 import { AuthGuard } from './_services/auth.guard';
 
+
 @NgModule({
     declarations: [
         AppComponent,
-        HeaderComponent,
-        CreateStateComponent,
         ContactComponent,
+        HeaderComponent
     ],
     imports: [
         BrowserModule,
