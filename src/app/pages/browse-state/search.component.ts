@@ -24,6 +24,7 @@ export class SearchComponent  {
 
   public search(filters: any): void {
     Object.keys(filters).forEach(key => filters[key] === '' ? delete filters[key] : key);
+    console.log(filters);
     this.groupFilters.emit(filters);
   }
 
