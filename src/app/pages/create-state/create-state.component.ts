@@ -1,5 +1,6 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import {CdkAccordionModule} from '@angular/cdk/accordion';
 
 import { StateView } from 'src/app/_models/state_view';
 import { DataService } from 'src/app/_services/data.service';
@@ -12,11 +13,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./create-state.component.css']
 })
 export class CreateStateComponent implements OnInit {
-  isCollapsed = -1;
-  keepOpen: boolean[] = [];
   states: StateView[] = [];
   selectedStates: StateView[] = [];
-  subStates: StateView[] = [];
   animals : string[] = [];
   baseUrl = environment.API_URL;
   ngUrl = environment.NG_URL;
@@ -30,14 +28,16 @@ export class CreateStateComponent implements OnInit {
     atlas: new FormControl(''),
   });
 
-  constructor(private dataService: DataService) { }
-  ngOnInit(): void {
+  constructor(
+    private dataService: DataService
+    ) { }
+
+    ngOnInit(): void {
     this.setData(this.stateUrl);
-  }
+    }
 
 
-
-  setData(url: string): void {
+  private setData(url: string): void {
 
     this.dataService.getData(url).subscribe(response => {
       this.states = response.results;
@@ -51,12 +51,6 @@ export class CreateStateComponent implements OnInit {
       if (response.previous) {
         this.previous = response.previous;
       }
-      let l = this.animals.length; // user defined length
-
-      for (var i = 0; i < length; i++) {
-        this.keepOpen.push(false);
-      }
-
     });
   }
 
@@ -70,29 +64,14 @@ export class CreateStateComponent implements OnInit {
     this.setData(this.previous);
   }
 
-  /* This gets called when a user selects an animal and it uncollapses
-      the div
-  */
-  public fetchData(event: any, i: number, animal: string): void {
-    this.subStates = this.states.filter(element => {
-      return element.group_name == animal;
-    })
-    // this.isCollapsed = i;
-    for (let a of this.animals) {
-      if (a === animal) {
-        console.log('a === a=' + a + ' animal param=' + animal);
-        this.keepOpen[i] = true;
-      } 
-    }
-    
-  }
 
   public toggleRightSide(isToggled: boolean, state_id: number): void {
+    
     let state = this.states.filter(element => {
       return element.id == state_id;
     })
-    if (isToggled) {
 
+    if (isToggled) {
       this.selectedStates.push(state[0]);
 
     } else {

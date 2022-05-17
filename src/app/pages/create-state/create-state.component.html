@@ -1,82 +1,86 @@
 <section class="container brain">
   <form novalidate [formGroup]="searchForm">
 
-  <div class="row">
+    <div class="row">
 
-    <div class="col-3 search-container">
+      <div class="col-3 search-container">
 
-      <!-- start of search -->
+        <!-- start of search -->
 
-      <div class="row">
-        <div class="col">
-          <div class="title">Atlas</div>
-          <div class="form-check">
-            <input mdbRadio class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-            <label class="form-check-label" for="flexRadioDefault1">Princeton</label>
-          </div>
-          <div class="form-check">
-            <input mdbRadio class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-            <label class="form-check-label" for="flexRadioDefault2">UCSD</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <div class="title">Data</div>
-
-          <div *ngFor="let animal of animals; let i = index">
-            <button class="collapsible active" (click)="fetchData($event, i, animal)"><i class="fa fa-toggle-right"
-                style="margin: 2px 2px;"></i> {{animal}}</button>
-            <div [id]="'collapseViewMore-' + i" [ngbCollapse]="!keepOpen[i]" class="content">
-              <div *ngFor="let state of subStates">
-                <div class="item-checkbox">
-                  <label>
-                    <input type="checkbox" value="{{state.id}}" id="id_{{i}}"
-                      (change)="toggleRightSide($any($event.target)?.checked, state.id)">{{state.layer_name}}
-                    {{state.description}}
-                  </label>
-                </div>
-              </div>
+        <div class="row">
+          <div class="col">
+            <div class="title">Atlas</div>
+            <div class="form-check">
+              <input mdbRadio class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+              <label class="form-check-label" for="flexRadioDefault1">Princeton</label>
+            </div>
+            <div class="form-check">
+              <input mdbRadio class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+              <label class="form-check-label" for="flexRadioDefault2">UCSD</label>
             </div>
           </div>
-
         </div>
-      </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="title">Data</div>
+
+            <mat-accordion>
+              <mat-expansion-panel *ngFor="let animal of animals; let i = index;" class="accordion-container">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ animal }}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="collapsed-container">
+                  <div *ngFor="let state of states">
+                    <div class="item-checkbox" *ngIf="animal == state.group_name">
+                      <label>
+                        <input type="checkbox" value="{{state.id}}" id="id_{{state.id}}"
+                          (change)="toggleRightSide($any($event.target)?.checked, state.id)">{{state.layer_name}}
+                        {{state.description}}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
 
 
-      <div class="row">
-        <div class="col">
-          <nav aria-label="Page navigation">
-            <ul class="pagination state-pagination">
-              <li class="page-item">
-                <button class="page-link" [disabled]="numberOfPages <= 10" (click)="fetchPrevious()">Previous</button>
-              </li>
-              <li class="page-item">
-                <button class="page-link" [disabled]="numberOfPages <= 10" (click)="fetchNext()">Next</button>
-              </li>
-            </ul>
-          </nav>
+          </div>
         </div>
-      </div>
+
+        <div class="row state-pagination">
+          <div class="col">
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <li class="page-item">
+                  <button class="page-link" [disabled]="numberOfPages <= 10" (click)="fetchPrevious()">Previous</button>
+                </li>
+                <li class="page-item">
+                  <button class="page-link" [disabled]="numberOfPages <= 10" (click)="fetchNext()">Next</button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+      </div> <!-- end of left side -->
+      <!-- start of right side list -->
+
+      <div class="col-1"></div>
+
+      <div class="col-8 content-container">
+        <p>Data to add to Neuroglancer</p>
+        <div *ngFor="let state of selectedStates" class="card">
+          <a class="card-body card-a" target="_blank" href="{{ngUrl}}?id={{state.id}}">
+            <p class="card-title">{{state.group_name}} {{state.layer_name}}</p>
+            <p class="card-text" style="margin-top:4px;">Lab: {{state.lab }}</p>
+          </a>
+        </div>
+      </div> <!-- end of list -->
 
 
-    </div> <!-- end of left side -->
-    <!-- start of right side list -->
-
-    <div class="col-1"></div>
-
-    <div class="col-8 content-container">
-      <p>Data to add to Neuroglancer</p>
-      <div *ngFor="let state of selectedStates" class="card">
-        <a class="card-body card-a" target="_blank" href="{{ngUrl}}?id={{state.id}}">
-          <p class="card-title">{{state.group_name}} {{state.layer_name}}</p>
-          <p class="card-text" style="margin-top:4px;">Lab: {{state.lab }}</p>
-        </a>
-      </div>
-    </div> <!-- end of list -->
-
-
-  </div> <!-- end of only row -->
+    </div> <!-- end of only row -->
   </form>
 </section> <!-- end of container -->
