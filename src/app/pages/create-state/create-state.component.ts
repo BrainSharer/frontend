@@ -14,10 +14,11 @@ import { environment } from 'src/environments/environment';
 })
 export class CreateStateComponent implements OnInit {
   states: StateView[] = [];
-  selectedStates: StateView[] = [];
+  public selectedStates: StateView[] = [];
   animals : string[] = [];
   baseUrl = environment.API_URL;
   ngUrl = environment.NG_URL;
+  url_ID = 0;
   animalUrl = this.baseUrl + '/animal'
   stateUrl = this.baseUrl + '/states'
   next: string = '';
@@ -84,6 +85,19 @@ export class CreateStateComponent implements OnInit {
     }
   }
 
+  onSubmit() {
+    if (this.selectedStates.length > 0) {
+      this.dataService.addStateView(this.selectedStates)
+        .subscribe({
+          next: (res) => {
+            this.url_ID = res;
+            const redirecturl = this.ngUrl + '?id=' + this.url_ID;
+            window.location.href = redirecturl;
+          },
+          error: (e) => console.error(e)
+        });
+    }
+  }
 
 
 }

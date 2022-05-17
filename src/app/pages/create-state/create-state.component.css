@@ -33,6 +33,12 @@
   font-style: italic;
 }
 
+.card-container {
+  padding: 2px;
+  margin-top: 5px;
+  border-radius: 5px;
+  background: #ccc;
+}
 .card>a {
   text-decoration: none;
   color: #000000;
@@ -101,4 +107,8 @@ div.item-checkbox>label>input {
 
 .state-pagination {
   margin: 10px 0px 0px 10px;
+}
+
+.submit-button {
+  margin: 10px 0 0 20px;
 }

@@ -8,6 +8,7 @@ export interface StateView {
     layer_name: string;
     description: string;
     url: string;
+    thumbnail_url: string;
     layer_type: string;
     resolution: number;
     zresolution: number;

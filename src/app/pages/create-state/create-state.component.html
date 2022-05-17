@@ -1,5 +1,5 @@
 <section class="container brain">
-  <form novalidate [formGroup]="searchForm">
+  <form novalidate [formGroup]="searchForm" (ngSubmit)="onSubmit()">
 
     <div class="row">
 
@@ -71,16 +71,41 @@
       <div class="col-1"></div>
 
       <div class="col-8 content-container">
-        <p>Data to add to Neuroglancer</p>
-        <div *ngFor="let state of selectedStates" class="card">
-          <a class="card-body card-a" target="_blank" href="{{ngUrl}}?id={{state.id}}">
-            <p class="card-title">{{state.group_name}} {{state.layer_name}}</p>
-            <p class="card-text" style="margin-top:4px;">Lab: {{state.lab }}</p>
-          </a>
+
+        <div class="title" *ngIf="selectedStates.length > 0">
+          <p>Data to add to Neuroglancer</p>
         </div>
+
+        <div class="title" *ngIf="selectedStates.length < 1">
+          <p>Click on the data checkboxes on the left side of this page to add data.</p>
+        </div>
+
+        <div *ngFor="let state of selectedStates" class="card-container">
+
+
+          <div class="card">
+            <div class="row no-gutters">
+              <div class="col-auto">
+                <img src="/assets/placeholder.png" class="img-fluid" alt="{{state.group_name}}">
+              </div>
+              <div class="col">
+                <div class="card-block px-2">
+                  <h4 class="card-title">{{state.group_name}}</h4>
+                  <p class="card-text">{{state.lab_name }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="submit-button" *ngIf="selectedStates.length > 0">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+
       </div> <!-- end of list -->
 
 
+
     </div> <!-- end of only row -->
+
   </form>
 </section> <!-- end of container -->
