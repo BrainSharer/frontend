@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../_services/auth.service';
-import { NotificationService } from '../_services/notification';
-import { environment } from '../../environments/environment';
+import { AuthService } from '../../_services/auth.service';
+import { NotificationService } from '../../_services/notification';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',

@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { DataService } from '../_services/data.service';
-import { NotificationService } from '../_services/notification';
-import { existingUsernameValidator, existingEmailValidator } from '../_utils/validate.existing';
-import Validation from '../_utils/validation';
+import { DataService } from '../../_services/data.service';
+import { NotificationService } from '../../_services/notification';
+import { existingUsernameValidator, existingEmailValidator } from '../../_utils/validate.existing';
+import Validation from '../../_utils/validation';
 
 @Component({
     selector: 'app-register',

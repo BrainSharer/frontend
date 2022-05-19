@@ -1,10 +1,29 @@
-import { Component, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import {CdkAccordionModule} from '@angular/cdk/accordion';
 
-import { StateView } from 'src/app/_models/state_view';
+import { GroupView, StateView } from 'src/app/_models/state_view';
 import { DataService } from 'src/app/_services/data.service';
 import { environment } from 'src/environments/environment';
+
+/* This overrides the set so you can actually compare objects.
+It uses the JSON.stringify to get the objects in a common
+object type
+*/
+class GroupSet<T> extends Set<T> {
+  override add(value: T): this {
+      let found = false;
+      this.forEach(item => {
+          if (JSON.stringify(value) === JSON.stringify(item)) {
+              found = true;
+          }
+      });
+      if (!found) {
+          super.add(value);
+      }
+      return this;
+  }
+}
+
 
 
 @Component({
@@ -15,12 +34,13 @@ import { environment } from 'src/environments/environment';
 export class CreateStateComponent implements OnInit {
   states: StateView[] = [];
   public selectedStates: StateView[] = [];
-  animals : string[] = [];
+  groups : StateView[] = [];
   baseUrl = environment.API_URL;
   ngUrl = environment.NG_URL;
   url_ID = 0;
   animalUrl = this.baseUrl + '/animal'
   stateUrl = this.baseUrl + '/states'
+  groupUrl = this.baseUrl + '/groups'
   next: string = '';
   previous: string = '';
   numberOfPages: number = 0;
@@ -34,7 +54,7 @@ export class CreateStateComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-    this.setData(this.stateUrl);
+      this.setData(this.stateUrl);
     }
 
 
@@ -42,7 +62,7 @@ export class CreateStateComponent implements OnInit {
 
     this.dataService.getData(url).subscribe(response => {
       this.states = response.results;
-      this.animals = Array.from(new Set(response.results.map((x: StateView) => x.group_name)));
+      this.groups = Array.from(new GroupSet(response.results.map((x: GroupView) => new GroupView(x.group_name, x.layer_type))));
       this.numberOfPages = response.count;
 
       if (response.next) {

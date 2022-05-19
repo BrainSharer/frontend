@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ContactComponent } from './pages/contact/contact.component';
 
-const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
+const accountModule = () => import('./pages/account/account.module').then(x => x.AccountModule);
 const browseStateModule = () => import('./pages/browse-state/browse-state.module').then(x => x.BrowseStateModule);
 const createStateModule = () => import('./pages/create-state/create-state.module').then(x => x.CreateStateModule);
 

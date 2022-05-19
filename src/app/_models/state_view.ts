@@ -12,6 +12,11 @@ export interface StateView {
     layer_type: string;
     resolution: number;
     zresolution: number;
-    updated: Date,
-    lab: number
+    updated: Date;
+    lab: number;
     }
+
+    export  class GroupView {
+        constructor(public group_name: string, public layer_type: string){}
+    }
+

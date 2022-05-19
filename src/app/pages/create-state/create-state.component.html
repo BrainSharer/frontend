@@ -1,5 +1,5 @@
 <section class="container brain">
-  <form novalidate [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+  <form novalidate [formGroup]="searchForm">
 
     <div class="row">
 
@@ -9,32 +9,17 @@
 
         <div class="row">
           <div class="col">
-            <div class="title">Atlas</div>
-            <div class="form-check">
-              <input mdbRadio class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-              <label class="form-check-label" for="flexRadioDefault1">Princeton</label>
-            </div>
-            <div class="form-check">
-              <input mdbRadio class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-              <label class="form-check-label" for="flexRadioDefault2">UCSD</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col">
-            <div class="title">Data</div>
-
+            <div class="title">Segmentation layers</div>
             <mat-accordion>
-              <mat-expansion-panel *ngFor="let animal of animals; let i = index;" class="accordion-container">
+              <mat-expansion-panel *ngFor="let group of groups | stateFilter: 'segmentation'; let i = index;" class="accordion-container">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
-                    {{ animal }}
+                    {{ group.group_name }}
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div class="collapsed-container">
                   <div *ngFor="let state of states">
-                    <div class="item-checkbox" *ngIf="animal == state.group_name">
+                    <div class="item-checkbox" *ngIf="group.group_name == state.group_name">
                       <label>
                         <input type="checkbox" value="{{state.id}}" id="id_{{state.id}}"
                           (change)="toggleRightSide($any($event.target)?.checked, state.id)">{{state.layer_name}}
@@ -43,9 +28,35 @@
                     </div>
                   </div>
                 </div>
-              </mat-expansion-panel>
+              </mat-expansion-panel>              
             </mat-accordion>
+        </div>
+        </div>
 
+        <div class="row">
+          <div class="col">
+            <div class="title">Image layers</div>
+
+            <mat-accordion>
+              <mat-expansion-panel *ngFor="let group of groups | stateFilter: 'image'; let i = index;" class="accordion-container">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ group.group_name }}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="collapsed-container">
+                  <div *ngFor="let state of states">
+                    <div class="item-checkbox" *ngIf="group.group_name == state.group_name">
+                      <label>
+                        <input type="checkbox" value="{{state.id}}" id="id_{{state.id}}"
+                          (change)="toggleRightSide($any($event.target)?.checked, state.id)">{{state.layer_name}}
+                        {{state.description}}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>              
+            </mat-accordion>
 
           </div>
         </div>
@@ -86,19 +97,22 @@
           <div class="card">
             <div class="row no-gutters">
               <div class="col-auto">
-                <img src="/assets/placeholder.png" class="img-fluid" alt="{{state.group_name}}">
+                <img src="https://brainsharer.org/images/thumbnail/{{state.group_name}}.{{state.layer_name}}.png" class="img-fluid" alt="{{state.group_name}}">
               </div>
               <div class="col">
                 <div class="card-block px-2">
                   <h4 class="card-title">{{state.group_name}}</h4>
-                  <p class="card-text">{{state.lab_name }}</p>
+                  <p class="card-text">{{state.layer_name }}</p>
                 </div>
               </div>
             </div>
+            <div class="card-footer w-100 text-muted">
+              {{state.lab_name }}
+          </div>
           </div>
         </div>
         <div class="submit-button" *ngIf="selectedStates.length > 0">
-          <button class="btn btn-primary" type="submit">Submit</button>
+          <button class="btn btn-primary" type="submit" (click)="onSubmit()">Submit</button>
         </div>
 
       </div> <!-- end of list -->

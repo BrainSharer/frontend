@@ -6,12 +6,12 @@ import { StateView } from '../_models/state_view';
     pure: false
 })
 export class StateFilterPipe implements PipeTransform {
-    transform(items: StateView[], filter: StateView): any {
+    transform(items: StateView[], filter: string): any {
         if (!items || !filter) {
             return items;
         }
         // filter items array, items which match and return true will be
         // kept, false will be filtered out
-        return items.filter(item => item.group_name.indexOf(filter.group_name) !== -1);
+        return items.filter(item => item.layer_type === filter);
     }
 }
