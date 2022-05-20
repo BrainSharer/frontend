@@ -6,15 +6,67 @@
       <div class="col-3 search-container">
 
         <!-- start of search -->
+        <div class="row">
+          <div class="col">
+        
+            <div class="row">
+              <div class="col">
+                <label>Filter</label>
+                <input type="text" formControlName="comments" class="form-control" (ngModelChange)="searchTitle($event)" placeholder="Search titles"/>
+              </div>
+            </div>
+        
+            <div class="row">
+              <div class="col">
+                <label>Labs</label>
+                <select class="form-control"  formControlName="labs" (ngModelChange)="searchLab($event)">
+                  <option value="0">All</option>
+                  <option *ngFor="let lab of labs; let i = index" [value]="lab.id">
+                    {{lab.lab_name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+        
+            <div class="row">
+              <div class="col">
+                <label>Volume types</label>
+                <select class="form-control"  formControlName="layer_types" (ngModelChange)="searchLayerType($event)">
+                  <option *ngFor="let layer_type of layer_types; let i = index" [value]="layer_type.id">
+                    {{layer_type.name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+        
+            <!--
+            <div class="row">
+              <div class="col">
+                <label>Volume types</label>
+                <div *ngFor="let layer_type of layer_types; let i = index">
+                  <label>
+                    <input type="checkbox" value="{{layer_types[i].id}}" id="id_{{layer_types[i].id}}"
+                      (change)="toggleLeftSide($any($event.target)?.checked, layer_types[i].id)">
+                    {{layer_types[i].name}}
+                  </label>
+                </div>
+              </div>
+            </div>
+            -->
+
+          </div>          
+        </div>
+        
+        <!-- end search-->
 
         <div class="row">
           <div class="col">
-            <div class="title">Segmentation layers</div>
+            <div class="title">Choose 3D volumes and image volumes</div>
             <mat-accordion>
-              <mat-expansion-panel *ngFor="let group of groups | stateFilter: 'segmentation'; let i = index;" class="accordion-container">
+              <mat-expansion-panel *ngFor="let group of groups; let i = index;" class="accordion-container">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
-                    {{ group.group_name }}
+                    {{ group.group_name }} {{ group.layer_type}}
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div class="collapsed-container">
@@ -23,7 +75,7 @@
                       <label>
                         <input type="checkbox" value="{{state.id}}" id="id_{{state.id}}"
                           (change)="toggleRightSide($any($event.target)?.checked, state.id)">{{state.layer_name}}
-                        {{state.description}}
+                        {{state.description}} Volume type: {{state.layer_type}}
                       </label>
                     </div>
                   </div>
@@ -33,48 +85,22 @@
         </div>
         </div>
 
-        <div class="row">
-          <div class="col">
-            <div class="title">Image layers</div>
-
-            <mat-accordion>
-              <mat-expansion-panel *ngFor="let group of groups | stateFilter: 'image'; let i = index;" class="accordion-container">
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    {{ group.group_name }}
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-                <div class="collapsed-container">
-                  <div *ngFor="let state of states">
-                    <div class="item-checkbox" *ngIf="group.group_name == state.group_name">
-                      <label>
-                        <input type="checkbox" value="{{state.id}}" id="id_{{state.id}}"
-                          (change)="toggleRightSide($any($event.target)?.checked, state.id)">{{state.layer_name}}
-                        {{state.description}}
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </mat-expansion-panel>              
-            </mat-accordion>
-
-          </div>
-        </div>
-
-        <div class="row state-pagination">
+        <!--
+        <div class="row state-pagination" *ngIf="states.length > 11">
           <div class="col">
             <nav aria-label="Page navigation">
               <ul class="pagination">
                 <li class="page-item">
-                  <button class="page-link" [disabled]="numberOfPages <= 10" (click)="fetchPrevious()">Previous</button>
+                  <button class="page-link" [disabled]="groups.length <= 10" (click)="fetchPrevious()">Previous</button>
                 </li>
                 <li class="page-item">
-                  <button class="page-link" [disabled]="numberOfPages <= 10" (click)="fetchNext()">Next</button>
+                  <button class="page-link" (click)="fetchNext()">Next</button>
                 </li>
               </ul>
             </nav>
           </div>
         </div>
+        -->
 
       </div> <!-- end of left side -->
       <!-- start of right side list -->

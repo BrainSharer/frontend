@@ -43,9 +43,9 @@ export class DataService {
     }
     // Generic get. Can be used by any url as it returns any
     public getData(url: string): Observable<any> {
-        return this.httpClient.get(url).
+        return this.httpClient.get<Response>(url).
             pipe(
-                map((data: any) => {
+                map((data: Response): Response => {
                     return data;
                 }), catchError(error => {
                     return throwError(() => new Error('Error: ' + error))
@@ -53,10 +53,10 @@ export class DataService {
             )
     }
     // Specific get for a state
-    public getStateByAnimal(animal: string): Observable<any> {
-        return this.httpClient.get(this.API_URL + '/states?animal=' + animal).
+    public filterStates(animal: string): Observable<any> {
+        return this.httpClient.get<Response>(this.API_URL + '/states?animal=' + animal).
             pipe(
-                map((data: any) => {
+                map((data: Response) => {
                     return data;
                 }), catchError(error => {
                     return throwError(() => new Error('Error: ' + error))

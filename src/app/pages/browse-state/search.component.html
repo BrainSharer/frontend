@@ -6,14 +6,16 @@
 
     <div class="row">
         <div class="col">
-            <input type="text" formControlName="comments" class="form-control" placeholder="Search titles"/>
+            <label>Search titles</label>
+            <input type="text" formControlName="comments" class="form-control"/>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
+            <label>Labs</label>
             <select ngDefaultControl class="form-control" formControlName="lab">
-                <option value=""> Lab</option>
+                <option value="">Lab</option>
                 <option [ngValue]="lab" *ngFor="let lab of labs">{{lab}}</option>
             </select>
         </div>

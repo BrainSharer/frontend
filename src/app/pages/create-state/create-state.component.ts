@@ -2,28 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { GroupView, StateView } from 'src/app/_models/state_view';
+import { GroupSet } from 'src/app/_models/group.set';
+import { Lab } from 'src/app/_models/lab';
 import { DataService } from 'src/app/_services/data.service';
 import { environment } from 'src/environments/environment';
-
-/* This overrides the set so you can actually compare objects.
-It uses the JSON.stringify to get the objects in a common
-object type
-*/
-class GroupSet<T> extends Set<T> {
-  override add(value: T): this {
-      let found = false;
-      this.forEach(item => {
-          if (JSON.stringify(value) === JSON.stringify(item)) {
-              found = true;
-          }
-      });
-      if (!found) {
-          super.add(value);
-      }
-      return this;
-  }
-}
-
 
 
 @Component({
@@ -32,22 +14,30 @@ class GroupSet<T> extends Set<T> {
   styleUrls: ['./create-state.component.css']
 })
 export class CreateStateComponent implements OnInit {
+  labs: Lab[] = [];
   states: StateView[] = [];
   public selectedStates: StateView[] = [];
   groups : StateView[] = [];
   baseUrl = environment.API_URL;
   ngUrl = environment.NG_URL;
   url_ID = 0;
-  animalUrl = this.baseUrl + '/animal'
-  stateUrl = this.baseUrl + '/states'
-  groupUrl = this.baseUrl + '/groups'
+  animalUrl = this.baseUrl + '/animal';
+  labUrl = this.baseUrl + '/labs';
+  stateUrl = this.baseUrl + '/states';
   next: string = '';
   previous: string = '';
-  numberOfPages: number = 0;
+  numberOfResults: number = 0;
   searchForm: FormGroup = new FormGroup({
     comments: new FormControl(''),
-    atlas: new FormControl(''),
+    labs: new FormControl(''),
+    layer_types: new FormControl('')
   });
+
+  layer_types = [
+    { id: '', name: 'All' },
+    { id: 'segmentation', name: '3D volume' },
+    { id: 'image', name: 'Image stack' },
+  ]
 
   constructor(
     private dataService: DataService
@@ -55,15 +45,40 @@ export class CreateStateComponent implements OnInit {
 
     ngOnInit(): void {
       this.setData(this.stateUrl);
+      this.setLabs(this.labUrl);
     }
 
+    public onReset(): void {
+    }
+
+    public searchLab(search: number): void {
+      const url = this.stateUrl + '?lab=' + search;
+      this.setData(url);
+    }
+
+    public searchLayerType(search: string): void {
+      const url = this.stateUrl + '?layer_type=' + search;
+      this.setData(url);
+    }
+
+    public searchTitle(search: string): void {
+      const url = this.stateUrl + '?animal=' + search;
+      this.setData(url);
+    }
+
+  private setLabs(url: string): void {
+    this.dataService.getData(url).subscribe(response => {
+      this.labs = response.results;
+    });
+
+  }
 
   private setData(url: string): void {
-
     this.dataService.getData(url).subscribe(response => {
       this.states = response.results;
       this.groups = Array.from(new GroupSet(response.results.map((x: GroupView) => new GroupView(x.group_name, x.layer_type))));
-      this.numberOfPages = response.count;
+      this.numberOfResults = response.count;
+      console.log('groups=' + this.groups.length + ' states=' + this.states.length);
 
       if (response.next) {
         this.next = response.next;
@@ -72,6 +87,7 @@ export class CreateStateComponent implements OnInit {
       if (response.previous) {
         this.previous = response.previous;
       }
+
     });
   }
 
@@ -85,6 +101,13 @@ export class CreateStateComponent implements OnInit {
     this.setData(this.previous);
   }
 
+
+  public toggleLeftSide(isToggled: boolean, layer_type: string): void {
+    console.log(layer_type);
+    this.states.filter(element => {
+      return element.layer_type == layer_type;
+    })
+  }
 
   public toggleRightSide(isToggled: boolean, state_id: number): void {
     
