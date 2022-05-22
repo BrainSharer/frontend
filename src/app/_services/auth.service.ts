@@ -20,13 +20,14 @@ const httpOptions = {
 export class AuthService {
   private sessionActive = new BehaviorSubject<boolean>(this.tokenAvailable());
   public user: User = {
-    id:0, 
-    username:'',
-    first_name:'',
-    last_name:'',
-    email:'',
-    password:'',
-    password2:''};
+    id: 0,
+    username: '',
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    password2: ''
+  };
   public errors: any = [];
   public token_expires: Partial<Date> = {};
   private token: string = "";
@@ -34,7 +35,7 @@ export class AuthService {
 
   constructor(
     private router: Router,
-    private httpClient: HttpClient, 
+    private httpClient: HttpClient,
     private notificationService: NotificationService) { }
 
   public login(username: string, password: string): any {
@@ -70,32 +71,19 @@ export class AuthService {
 
   private updateUser(username: string): void {
     this.getCurrentUser(username)
-    .subscribe({
-      next: (user:User) => {
-        sessionStorage.setItem('user', JSON.stringify(user));
-      },
-      error: (msg: Error) => {
-        this.notificationService.showError(msg.message, 'Error fetching user.');
-      }
-    });
-
-
+      .subscribe({
+        next: (user: User) => {
+          sessionStorage.setItem('user', JSON.stringify(user));
+        },
+        error: (msg: Error) => {
+          this.notificationService.showError(msg.message, 'Error fetching user.');
+        }
+      });
   }
 
   private getCurrentUser(username: string): any {
     return this.httpClient.get<User>(this.API_URL + '/user/' + username);
-}
-
-
-  /*
-  public getExpiration() {
-    return moment(this.token_expires);
   }
-
-  public get isTokenActive() {
-    return moment().isBefore(this.getExpiration());
-  }
-  */
 
   private updateData(token: any): void {
     this.token = token;
@@ -111,14 +99,14 @@ export class AuthService {
   public refreshToken(): void {
     this.token = sessionStorage.getItem('token') || '{}';
     this.httpClient.post(this.API_URL + '/api-token-refresh/', JSON.stringify({ token: this.token }), httpOptions)
-    .subscribe({
-      next: (data:any) => {
-        this.updateData(data['token']);
-      },
-      error: (err: any) => {
-        this.errors = err['error'];
-      }
-    });
+      .subscribe({
+        next: (data: any) => {
+          this.updateData(data['token']);
+        },
+        error: (err: any) => {
+          this.errors = err['error'];
+        }
+      });
   }
 
   private tokenAvailable(): boolean {
@@ -127,7 +115,7 @@ export class AuthService {
 
   public getDjangoUser(): any {
     return this.httpClient.get<User>(this.API_URL + '/session');
-}
+  }
 
   public get isLoggedIn(): Observable<boolean> {
     /*
@@ -147,7 +135,7 @@ export class AuthService {
     }
     */
     const loggedInStatus = this.sessionActive.asObservable();
-    return  loggedInStatus;
+    return loggedInStatus;
   }
 
 
@@ -156,8 +144,20 @@ export class AuthService {
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('token');
     this.sessionActive = new BehaviorSubject<boolean>(false);
-    this.notificationService.showWarning('You have been logged out','Success');
+    this.notificationService.showWarning('You have been logged out', 'Success');
     this.router.navigate(['/home']);
   }
+
+
+  /*
+  public getExpiration() {
+    return moment(this.token_expires);
+  }
+
+  public get isTokenActive() {
+    return moment().isBefore(this.getExpiration());
+  }
+  */
+
 
 }

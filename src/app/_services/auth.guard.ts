@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Router, CanActivate } from '@angular/router';
 
-import { User } from '../_models/user';
+import { User } from 'src/app/_models/user';
 import { AuthService } from './auth.service';
+import { NotificationService } from 'src/app/_services/notification';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -16,18 +17,22 @@ export class AuthGuard implements CanActivate {
     password2:''};
 
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private notificationService: NotificationService, 
+    private router: Router) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  canActivate(): boolean {
     this.user = JSON.parse(sessionStorage.getItem('user') || '{}');
-    if (sessionStorage.getItem('user')) {
+    if ((this.user) && (this.user.id > 0)){
       this.authService.user = this.user;
+      console.log('Got valid session user');
       this.setExpiration();
       return true;
-    }
-
+    } 
     // not logged in so redirect to login page with the return url
-    this.router.navigate(['/account/home']);
+    this.notificationService.showError('Error', 'You do not have access to that page.');
+    this.router.navigate(['/account/login']);
     return false;
   }
 

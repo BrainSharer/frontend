@@ -24,8 +24,7 @@ export class LoginComponent implements OnInit {
         Validators.minLength(8),
         Validators.maxLength(40),
       ]
-    }),
-    
+    }),    
   });
 
   submitted: boolean = false;
@@ -33,7 +32,6 @@ export class LoginComponent implements OnInit {
   checkCaptcha(captchaResponse: string) {
     this.captchaResolved = (captchaResponse && captchaResponse.length > 0) ? true : false
   }
-
 
   google_url = environment.GOOGLE_URL;
 
