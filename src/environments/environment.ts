@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   API_URL: 'http://localhost:8000',
   NG_URL: 'http://localhost:8080/',
-  GOOGLE_URL: 'http:8000/accounts/google/login/?next=/',
+  GOOGLE_URL: 'http://localhost:8000/google/',
   recaptcha: {
     siteKey: '6LfKNi0cAAAAACeYwFRY9_d_qjGhpiwYUo5gNW5-',
   },

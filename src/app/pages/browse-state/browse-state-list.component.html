@@ -2,7 +2,7 @@
     <div *ngFor="let state of filteredStates | filter: searchByKeyword: 'name'" class="card">
         <a class="card-body card-a" target="_blank" href="{{ngUrl}}?id={{state.id}}">
             <p class="card-title">{{state.comments}}</p>
-            <img src="/images/screenshot/thumbnail_{{state.id}}.png">
+            <img src="https://www.brainsharer.org/images/screenshot/thumbnail_{{state.id}}.png">
             <p class="card-text" style="margin-top:4px;">Lab: {{state.lab }}</p>
         </a>
     </div>

@@ -6,6 +6,27 @@ import { AuthService } from '../../_services/auth.service';
 import { NotificationService } from '../../_services/notification';
 import { environment } from '../../../environments/environment';
 
+
+
+const googleAuthUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
+
+const scope = [
+  'https://www.googleapis.com/auth/userinfo.email',
+  'https://www.googleapis.com/auth/userinfo.profile'
+].join(' ');
+
+const params = {
+  response_type: 'code',
+  client_id: '821517150552-71h6bahua9qul09l90veb8g3hii6ed25.apps.googleusercontent.com',
+  redirect_uri: environment.GOOGLE_URL,
+  prompt: 'select_account',
+  access_type: 'offline',
+  scope
+};
+
+
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -24,7 +45,7 @@ export class LoginComponent implements OnInit {
         Validators.minLength(8),
         Validators.maxLength(40),
       ]
-    }),    
+    }),
   });
 
   submitted: boolean = false;
@@ -66,8 +87,12 @@ export class LoginComponent implements OnInit {
           this.notificationService.showError(msg.message, 'Error logging in with those credentials');
         }
       });
+  }
 
-
+  public clickGoogle() {
+    const urlParams = new URLSearchParams(params).toString();
+    window.location.href = `${googleAuthUrl}?${urlParams}`;
+ 
   }
 
 

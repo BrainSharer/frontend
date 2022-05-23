@@ -10,7 +10,7 @@
                 <li class="nav-item">
                     <a class="nav-link" routerLink="browse-state">Browse views</a>
                 </li>
-                <li class="nav-item" *ngIf="(authService.isLoggedIn | async)">
+                <li class="nav-item" *ngIf="(authService.isLoggedIn)">
                     <a class="nav-link" routerLink="create-view">Create view</a>
                 </li>
                 <li class="nav-item">
@@ -20,7 +20,7 @@
 
             <ul class="navbar-nav ml-auto">
 
-                <li class="nav-item dropdown" *ngIf="(authService.isLoggedIn | async)" style="margin-right:10px;">
+                <li class="nav-item dropdown" *ngIf="(authService.isLoggedIn)" style="margin-right:10px;">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown">
                         <img src="/assets/blank_avatar.png" class="avatar" alt="Avatar">{{authService.getFullname()}}<b class="caret"></b>
                     </a>
@@ -30,7 +30,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item dropdown" *ngIf="!(authService.isLoggedIn | async)" style="margin-right:10px;">
+                <li class="nav-item dropdown" *ngIf="!(authService.isLoggedIn)" style="margin-right:10px;">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" >
                         <img src="/assets/blank_avatar.png" class="avatar" alt="Avatar">Guest <b class="caret"></b></a>
 				
