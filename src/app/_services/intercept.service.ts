@@ -1,19 +1,43 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpEvent,
-  HttpInterceptor,
-  HttpHandler,
-  HttpRequest,
-} from '@angular/common/http';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest,} from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+import { VALIDATE } from 'src/app/_services/data.service';
 
 @Injectable()
 export class InterceptService implements HttpInterceptor {
 
   constructor() { }
 
-  intercept(httpRequest: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(httpRequest.clone({ setHeaders: { Authorization: `JWT ${sessionStorage.getItem('token')}` } }));
+
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (request.headers.get(VALIDATE)) {
+      console.log('Interceptor URL=' + request.url);
+      request = request.clone({
+        headers: request.headers.delete(VALIDATE)
+      });
+      let modifiedRequest = this.addAuthToken(request);
+      return next.handle(modifiedRequest);
+    }
+    console.log('NOT intercepting URL=' + request.url);
+    return next.handle(request);
+  }
+
+
+  addAuthToken(request: HttpRequest<any>) {
+    let access = sessionStorage.getItem('access');
+    // let refresh = sessionStorage.getItem('refresh');
+    if (!access) {
+      return request;
+    }
+    return request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${access}`,
+      },
+    });
   }
 
 }
+
+
+

@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +13,8 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './_shared/header/header.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { AuthService } from './_services/auth.service';
+import { LoginGuard } from 'src/app/_services/login.guard';
+import { InterceptService } from 'src/app/_services/intercept.service';
 
 
 @NgModule({
@@ -30,7 +33,7 @@ import { AuthService } from './_services/auth.service';
         BrowserAnimationsModule,
         ToastrModule.forRoot()
     ],
-    providers: [AuthService, CookieService],
+    providers: [InterceptService, { provide: HTTP_INTERCEPTORS, useClass: InterceptService, multi: true }, AuthService, CookieService, LoginGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

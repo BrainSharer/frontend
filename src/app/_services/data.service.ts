@@ -8,18 +8,21 @@ import { environment } from '../../environments/environment';
 import { StateView } from '../_models/state_view';
 import { User } from '../_models/user';
 
-const httpOptions = {
+
+/**
+ * This constant tells us that the REST request must be JWT authorized
+ * There is an extra header that just says validate=yes that tells us
+ * to intercept us. This header is also removed before it gets sent
+ * to Django as Django doesn't like the extra headers.
+ */
+
+export const VALIDATE = 'validate'
+
+const httpValidateOptions = {
     headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        // Authorization: 'my-auth-token'
+        validate: VALIDATE
     })
 };
-
-const headers = new HttpHeaders()
-    .append(
-        'Content-Type',
-        'application/json'
-    );
 
 @Injectable({
     providedIn: 'root'
@@ -32,7 +35,7 @@ export class DataService {
 
 
     public getStates(url: string): Observable<any> {
-        return this.httpClient.get(url).
+        return this.httpClient.get(url, httpValidateOptions).
             pipe(
                 map((data: any) => {
                     return data;
@@ -43,7 +46,7 @@ export class DataService {
     }
     // Generic get. Can be used by any url as it returns any
     public getData(url: string): Observable<any> {
-        return this.httpClient.get<Response>(url).
+        return this.httpClient.get<Response>(url, httpValidateOptions).
             pipe(
                 map((data: Response): Response => {
                     return data;
@@ -66,7 +69,7 @@ export class DataService {
 
     /** POST: add a new StateView to the database */
     public addStateView(stateView: StateView[]): Observable<number> {
-        return this.httpClient.post<number>(this.API_URL + '/createstate', stateView, httpOptions)
+        return this.httpClient.post<number>(this.API_URL + '/createstate', stateView, httpValidateOptions)
             .pipe(
                 catchError(error => {
                     return throwError(() => new Error('Error: ' + error))

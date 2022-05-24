@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+
 import { NotificationService } from './notification';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -19,8 +20,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService {
-  public isLoggedIn: boolean = false;
-  private sessionActive = new BehaviorSubject<boolean>(this.tokenAvailable());
+  public sessionActive = new BehaviorSubject<boolean>(this.tokenAvailable());
   public user: User = {
     id: 0,
     username: '',
@@ -32,44 +32,70 @@ export class AuthService {
   };
   public errors: any = [];
   public token_expires: Partial<Date> = {};
-  private token: string = "";
   API_URL = environment.API_URL;
 
   constructor(
     private cookieService: CookieService,
     private router: Router,
     private httpClient: HttpClient,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService) {
+    this.authStatusListener();
+  }
 
+  private authStatusListener(): void {
+    if (this.user.id === 0) {
+      const user_id = this.cookieService.get('id');
+      const username = this.cookieService.get('username');
+      const first_name = this.cookieService.get('first_name');
+      const last_name = this.cookieService.get('last_name');
+      const email = this.cookieService.get('email');
+      const access = this.cookieService.get('access');
+      const refresh = this.cookieService.get('refresh');
+      if (user_id) {
+        this.user = {'id': +user_id, 'username': username, 'first_name': first_name, 'last_name': last_name, 'email': email, 'password':'', 'password2': ''};
+        sessionStorage.setItem('user', JSON.stringify(this.user));
+        sessionStorage.setItem('access', access);
+        sessionStorage.setItem('refresh', refresh);
+        this.sessionActive = new BehaviorSubject<boolean>(true);
+      } else {
+        console.log('authStatusListener:No cookie')
+      }
+    }
+  }
+
+    /**
+     * This is the method to use to login into the local Django DB.
+     * The Django REST uses simplejwt for token stuff. The token gets sent
+     * to use in the response data['access'] 
+     * See: https://django-rest-framework-simplejwt.readthedocs.io/en/latest/getting_started.html
+     * @param username string for the username from the login page
+     * @param password string for password
+     * @returns 
+     */
   public login(username: string, password: string): any {
     return this.httpClient.post<any>(this.API_URL + '/api-token-auth/', { username: username, password: password }, httpOptions)
-      .pipe(map(data => {
-        if (data && data['token']) {
+      .pipe(
+        map(data => {
+        if (data && data['access']) {
           this.sessionActive.next(true);
           this.updateData(data);
           this.updateUser(username);
-          this.isLoggedIn = true;
         } else {
           console.log("No data returned from login.")
         }
         return data;
+      }), catchError(error => {
+        return throwError(() => new Error('Error: ' + error))
       }));
   }
 
-  public getDjangoUser(): any {
-    return this.httpClient.get<User>(this.API_URL + '/session');
-  }
-
-  public getSessionUser(): User | null {
-    const user = JSON.parse(sessionStorage.getItem('user') || '{}')
-    return user;
-  }
-
   public getFullname(): string {
-    const user = this.getSessionUser();
-    let fullname = '';
-    if ((user?.first_name) && (user?.last_name)) {
-      fullname = `${user.first_name} ${user.last_name}`
+    let fullname = 'NA';
+    if (this.user.first_name) {
+      fullname = this.user.first_name;
+    }
+    if (this.user.last_name) {
+      fullname = fullname.concat(' ').concat(this.user.last_name);
     }
     return fullname;
   }
@@ -79,6 +105,7 @@ export class AuthService {
       .subscribe({
         next: (user: User) => {
           sessionStorage.setItem('user', JSON.stringify(user));
+          this.user = user;
         },
         error: (msg: Error) => {
           this.notificationService.showError(msg.message, 'Error fetching user.');
@@ -91,20 +118,17 @@ export class AuthService {
   }
 
   private updateData(token: any): void {
-    this.token = token;
-    sessionStorage.setItem('token', token);
+    sessionStorage.setItem('access', token['access']);
+    sessionStorage.setItem('refresh', token['refresh']);
   }
 
   // Refreshes the JWT token, to extend the time the user is logged in
-  // this doesn't work on the Django end
   private refreshToken(): void {
-    this.token = sessionStorage.getItem('token') || '{}';
-    console.log(this.token);
-    this.httpClient.post(this.API_URL + '/api-token-refresh/', JSON.stringify({ token: this.token }), httpOptions)
+    const refresh = sessionStorage.getItem('refresh') || '{}';
+    this.httpClient.post(this.API_URL + '/api-token-refresh/', { refresh: refresh }, httpOptions)
       .subscribe({
-        next: (data: any) => {
-          console.log('in refresh ' + data);
-          this.updateData(data);
+        next: (token: any) => {
+          sessionStorage.setItem('access', token['access']);
         },
         error: (err: any) => {
           this.errors = err['error'];
@@ -112,54 +136,16 @@ export class AuthService {
       });
   }
 
-  private tokenAvailable(): boolean {
+  public tokenAvailable(): boolean {
     return !!sessionStorage.getItem('token');
-  }
-
-  public checkLoginStatus(): Observable<boolean> {
-    console.log('checking login status');    
-    if (this.user.id === 0) {
-      console.log('user is NOT defined, fetching from Django');
-      let data = this.cookieService.get('user');
-      console.log(data);
-      data = data.replace(/\\054/g, ',');
-      this.user = JSON.parse(data);
-      console.log(this.user);
-      sessionStorage.setItem('user', JSON.stringify(this.user));
-      this.sessionActive = new BehaviorSubject<boolean>(true);
-      this.isLoggedIn = true;
-    }
-    const loggedInStatus = this.sessionActive.asObservable();
-    return loggedInStatus;
-  }
-
-  public checkLoginStatusXXXX(): Observable<boolean> {
-    console.log('checking login status');    
-    if (this.user.id === 0) {
-      console.log('user is NOT defined, fetching from Django');
-      this.getDjangoUser()
-      .subscribe({
-        next: (user:User) => {
-          this.user = user;
-          console.log(this.user);
-          sessionStorage.setItem('user', JSON.stringify(user));
-          this.sessionActive = new BehaviorSubject<boolean>(true);
-          this.isLoggedIn = true;
-        },
-        error: (err: any) => {
-          this.errors = err['error'];
-          console.log(this.errors);
-        }
-      });
-    }
-    const loggedInStatus = this.sessionActive.asObservable();
-    return loggedInStatus;
   }
 
 
   public logout(): void {
     sessionStorage.removeItem('user');
-    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('access');
+    sessionStorage.removeItem('refresh');
+    this.cookieService.delete('id')
     this.sessionActive = new BehaviorSubject<boolean>(false);
     this.notificationService.showWarning('You have been logged out', 'Success');
     this.router.navigate(['/']);
@@ -174,6 +160,44 @@ export class AuthService {
   public get isTokenActive() {
     return moment().isBefore(this.getExpiration());
   }
+
+  public userAvailableXXXXXXXXXXX(): Observable<boolean> {
+    let data = this.cookieService.get('user');
+    data = data.replace(/\\054/g, ',');
+    this.user = JSON.parse(data);
+    if (this.user.id > 0) {
+      this.sessionActive.next(true);
+      sessionStorage.setItem('user', JSON.stringify(data));
+    }
+    return this.sessionActive;
+  }
+
+  public getDjangoUser(): any {
+    return this.httpClient.get<User>(this.API_URL + '/session');
+  }
+
+  public getSessionUser(): User | null {
+    const user = JSON.parse(sessionStorage.getItem('user') || '{}')
+    return user;
+  }
+
+  public checkLoginStatus(): Observable<boolean> {
+    if (this.user.id === 0) {
+      console.log('checkLoginStatus: user is NOT defined, fetching from cookie');
+      let data = this.cookieService.get('user');
+      if (data) {
+        data = data.replace(/\\054/g, ',');
+        this.user = JSON.parse(data);
+        console.log('checkLoginStatus:this.user=' + this.user);
+        sessionStorage.setItem('user', JSON.stringify(this.user));
+        this.sessionActive = new BehaviorSubject<boolean>(true);
+      } else {
+        console.log('checkLoginStatus:No cookie')
+      }
+    }
+    return this.sessionActive.asObservable();
+  }
+
   */
 
 

@@ -24,10 +24,9 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): boolean {
     this.user = JSON.parse(sessionStorage.getItem('user') || '{}');
+    console.log('AuthGuard::canActivate user=' + JSON.stringify(this.user));
     if ((this.user) && (this.user.id > 0)){
       this.authService.user = this.user;
-      console.log('Got valid session user');
-      this.setExpiration();
       return true;
     } 
     // not logged in so redirect to login page with the return url
@@ -35,17 +34,5 @@ export class AuthGuard implements CanActivate {
     this.router.navigate(['/account/login']);
     return false;
   }
-
-  private setExpiration() {
-    let token = sessionStorage.getItem('token');
-    if (token) {
-      const token_parts = token.split(/\./);
-      const token_decoded = JSON.parse(window.atob(token_parts[1]));
-      const token_expires = new Date(token_decoded.exp * 1000);
-      this.authService.token_expires = token_expires;
-    }
-  }
-
-
 
 }

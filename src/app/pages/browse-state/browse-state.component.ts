@@ -1,8 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { AuthService } from 'src/app/_services/auth.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-browse-state',
@@ -16,11 +12,8 @@ export class BrowseStateComponent {
   user_id: string = '';
   private sub: any;
 
-  constructor(private authService: AuthService) { }
+  constructor() { }
 
-  ngOnInit() {
-    this.authService.checkLoginStatus()
-  }
 
 
 }
