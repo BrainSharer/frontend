@@ -84,7 +84,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/home']);
         },
         error: (msg: Error) => {
-          this.notificationService.showError(msg.message, 'Error logging in with those credentials');
+          this.notificationService.showError('Those credentials did not work.', 'Error' );
         }
       });
   }
