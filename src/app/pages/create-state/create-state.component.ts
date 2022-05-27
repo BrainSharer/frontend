@@ -135,7 +135,8 @@ export class CreateStateComponent implements OnInit {
           next: (res) => {
             this.url_ID = res;
             const redirecturl = this.ngUrl + '?id=' + this.url_ID;
-            window.location.href = redirecturl;
+            // window.location.href = redirecturl;
+            window.open(redirecturl, '_blank');
           },
           error: (e) => console.error(e)
         });

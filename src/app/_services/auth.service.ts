@@ -59,6 +59,7 @@ export class AuthService {
         this.sessionActive = new BehaviorSubject<boolean>(true);
       } else {
         console.log('authStatusListener:No cookie')
+
       }
     }
   }
@@ -106,6 +107,12 @@ export class AuthService {
         next: (user: User) => {
           sessionStorage.setItem('user', JSON.stringify(user));
           this.user = user;
+          this.cookieService.set('id', this.user.id.toString());
+          this.cookieService.set('username', this.user.username);
+          this.cookieService.set('first_name', this.user.first_name);
+          this.cookieService.set('last_name', this.user.last_name);
+          this.cookieService.set('email', this.user.email);
+    
         },
         error: (msg: Error) => {
           this.notificationService.showError(msg.message, 'Error fetching user.');
