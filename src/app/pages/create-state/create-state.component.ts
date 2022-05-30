@@ -24,14 +24,16 @@ export class CreateStateComponent implements OnInit {
   animalUrl = this.baseUrl + '/animal';
   labUrl = this.baseUrl + '/labs';
   stateUrl = this.baseUrl + '/states';
-  next: string = '';
-  previous: string = '';
-  numberOfResults: number = 0;
   searchForm: FormGroup = new FormGroup({
     comments: new FormControl(''),
     labs: new FormControl(''),
     layer_types: new FormControl('')
   });
+
+  page: number = 1;
+  count: number = 0;
+  tableSize: number = 7;
+  tableSizes: any = [3, 6, 9, 12];
 
   layer_types = [
     { id: '', name: 'All' },
@@ -54,16 +56,19 @@ export class CreateStateComponent implements OnInit {
     public searchLab(search: number): void {
       const url = this.stateUrl + '?lab=' + search;
       this.setData(url);
+      this.page = 1;
     }
 
     public searchLayerType(search: string): void {
       const url = this.stateUrl + '?layer_type=' + search;
       this.setData(url);
+      this.page = 1;
     }
 
     public searchTitle(search: string): void {
       const url = this.stateUrl + '?animal=' + search;
       this.setData(url);
+      this.page = 1;
     }
 
   private setLabs(url: string): void {
@@ -74,33 +79,11 @@ export class CreateStateComponent implements OnInit {
   }
 
   private setData(url: string): void {
-    this.dataService.getData(url).subscribe(response => {
+    this.dataService.getSecureData(url).subscribe(response => {
       this.states = response.results;
       this.groups = Array.from(new GroupSet(response.results.map((x: GroupView) => new GroupView(x.group_name, x.layer_type))));
-      this.numberOfResults = response.count;
-      console.log('groups=' + this.groups.length + ' states=' + this.states.length);
-
-      if (response.next) {
-        this.next = response.next;
-      }
-
-      if (response.previous) {
-        this.previous = response.previous;
-      }
-
     });
   }
-
-  // function fetches the next paginated items by using the url in the next property
-  public fetchNext(): void {
-    this.setData(this.next);
-  }
-
-  // function fetches the previous paginated items by using the url in the previous property
-  public fetchPrevious(): void {
-    this.setData(this.previous);
-  }
-
 
   public toggleLeftSide(isToggled: boolean, layer_type: string): void {
     console.log(layer_type);
@@ -128,7 +111,7 @@ export class CreateStateComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  public onSubmit() {
     if (this.selectedStates.length > 0) {
       this.dataService.addStateView(this.selectedStates)
         .subscribe({
@@ -141,6 +124,17 @@ export class CreateStateComponent implements OnInit {
           error: (e) => console.error(e)
         });
     }
+  }
+
+  public onTableDataChange(event: any) {
+    this.page = event;
+    this.setData(this.stateUrl);
+  }
+
+  public onTableSizeChange(event: any): void {
+    this.tableSize = event.target.value;
+    this.page = 1;
+    this.setData(this.stateUrl);
   }
 
 

@@ -3,11 +3,12 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest,} from '@angular/c
 import { Observable } from 'rxjs';
 
 import { VALIDATE } from 'src/app/_services/data.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class InterceptService implements HttpInterceptor {
 
-  constructor() { }
+  constructor(private cookieService: CookieService) { }
 
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -25,11 +26,11 @@ export class InterceptService implements HttpInterceptor {
 
 
   addAuthToken(request: HttpRequest<any>) {
-    let access = sessionStorage.getItem('access');
+    let access = this.cookieService.get('access');
     // let refresh = sessionStorage.getItem('refresh');
     if (!access) {
       return request;
-    }
+    } 
     return request.clone({
       setHeaders: {
         Authorization: `Bearer ${access}`,

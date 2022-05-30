@@ -33,19 +33,30 @@ export class DataService {
 
     constructor(private httpClient: HttpClient) { }
 
-
-    public getStates(url: string): Observable<any> {
-        return this.httpClient.get(url, httpValidateOptions).
+    /**
+     *  To fetch data without a secure JWT token in the header
+     * @param url string of the url to fetch for the get
+     * @returns the array of any data
+     */
+    public getData(url: string): Observable<any> {
+        return this.httpClient.get<Response>(url).
             pipe(
-                map((data: any) => {
+                map((data: Response): Response => {
                     return data;
                 }), catchError(error => {
                     return throwError(() => new Error('Error: ' + error))
                 })
             )
     }
-    // Generic get. Can be used by any url as it returns any
-    public getData(url: string): Observable<any> {
+
+    /**
+     * Secure generic get. Includes the VALIDATE string in the header
+     * This way, the interceptor will intercept and make sure a valid
+     * token is sent
+     * @param url string of the url to fetch for the get
+     * @returns the array of any data
+     */
+    public getSecureData(url: string): Observable<any> {
         return this.httpClient.get<Response>(url, httpValidateOptions).
             pipe(
                 map((data: Response): Response => {

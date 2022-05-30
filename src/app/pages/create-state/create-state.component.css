@@ -23,6 +23,11 @@
   /* Green background with 30% opacity */
 }
 
+
+.buffer-column {
+  width: 1px;
+}
+
 .collapsed-container {
   padding: 0px;
   margin: 0px 0px 0px 0px;
@@ -106,7 +111,8 @@ div.item-checkbox>label>input {
 }
 
 .state-pagination {
-  margin: 10px 0px 0px 10px;
+  margin: 10px 0px 0px 0px;
+  font-size: smaller;
 }
 
 .submit-button {

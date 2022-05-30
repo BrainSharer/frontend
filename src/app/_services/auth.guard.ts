@@ -4,6 +4,7 @@ import { Router, CanActivate } from '@angular/router';
 import { User } from 'src/app/_models/user';
 import { AuthService } from './auth.service';
 import { NotificationService } from 'src/app/_services/notification';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -19,13 +20,18 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     private authService: AuthService,
+    private cookieService: CookieService,
     private notificationService: NotificationService, 
     private router: Router) { }
 
   canActivate(): boolean {
-    this.user = JSON.parse(sessionStorage.getItem('user') || '{}');
-    console.log('AuthGuard::canActivate user=' + JSON.stringify(this.user));
-    if ((this.user) && (this.user.id > 0)){
+    const user_id = this.cookieService.get('id');
+    const username = this.cookieService.get('username');
+    const first_name = this.cookieService.get('first_name');
+    const last_name = this.cookieService.get('last_name');
+    const email = this.cookieService.get('email');
+    if (user_id) {
+      this.user = {'id': +user_id, 'username': username, 'first_name': first_name, 'last_name': last_name, 'email': email, 'password':'', 'password2': ''};
       this.authService.user = this.user;
       return true;
     } 

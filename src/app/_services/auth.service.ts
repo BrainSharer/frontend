@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { NotificationService } from './notification';
@@ -49,13 +48,13 @@ export class AuthService {
       const first_name = this.cookieService.get('first_name');
       const last_name = this.cookieService.get('last_name');
       const email = this.cookieService.get('email');
-      const access = this.cookieService.get('access');
-      const refresh = this.cookieService.get('refresh');
+      const userdict = this.cookieService.get('user');
+      if (userdict) {
+        console.log('parseing userdict');
+        console.log(userdict);
+      }
       if (user_id) {
         this.user = {'id': +user_id, 'username': username, 'first_name': first_name, 'last_name': last_name, 'email': email, 'password':'', 'password2': ''};
-        sessionStorage.setItem('user', JSON.stringify(this.user));
-        sessionStorage.setItem('access', access);
-        sessionStorage.setItem('refresh', refresh);
         this.sessionActive = new BehaviorSubject<boolean>(true);
       } else {
         console.log('authStatusListener:No cookie')
@@ -105,14 +104,12 @@ export class AuthService {
     this.getCurrentUser(username)
       .subscribe({
         next: (user: User) => {
-          sessionStorage.setItem('user', JSON.stringify(user));
           this.user = user;
           this.cookieService.set('id', this.user.id.toString());
           this.cookieService.set('username', this.user.username);
           this.cookieService.set('first_name', this.user.first_name);
           this.cookieService.set('last_name', this.user.last_name);
           this.cookieService.set('email', this.user.email);
-    
         },
         error: (msg: Error) => {
           this.notificationService.showError(msg.message, 'Error fetching user.');
@@ -125,8 +122,8 @@ export class AuthService {
   }
 
   private updateData(token: any): void {
-    sessionStorage.setItem('access', token['access']);
-    sessionStorage.setItem('refresh', token['refresh']);
+    this.cookieService.set('access', token['access']);
+    this.cookieService.set('refresh', token['refresh']);
   }
 
   // Refreshes the JWT token, to extend the time the user is logged in
@@ -135,7 +132,7 @@ export class AuthService {
     this.httpClient.post(this.API_URL + '/api-token-refresh/', { refresh: refresh }, httpOptions)
       .subscribe({
         next: (token: any) => {
-          sessionStorage.setItem('access', token['access']);
+          this.cookieService.set('access', token['access']);
         },
         error: (err: any) => {
           this.errors = err['error'];
@@ -144,15 +141,14 @@ export class AuthService {
   }
 
   public tokenAvailable(): boolean {
-    return !!sessionStorage.getItem('token');
+    return !!this.cookieService.get('access');
   }
 
 
   public logout(): void {
-    sessionStorage.removeItem('user');
-    sessionStorage.removeItem('access');
-    sessionStorage.removeItem('refresh');
     this.cookieService.delete('id')
+    this.cookieService.delete('access')
+    this.cookieService.delete('refresh')
     this.sessionActive = new BehaviorSubject<boolean>(false);
     this.notificationService.showWarning('You have been logged out', 'Success');
     this.router.navigate(['/']);
