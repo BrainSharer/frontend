@@ -8,6 +8,14 @@ import { environment } from '../../../environments/environment';
 
 
 
+const githubAuthUrl = 'https://github.com/login/oauth/authorize';
+
+
+const githubParams = {
+  client_id: '3ad4b114f66ffb3b6ed8',
+  redirect_uri: environment.GITHUB_URL,
+};
+
 const googleAuthUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
 
 const scope = [
@@ -15,7 +23,7 @@ const scope = [
   'https://www.googleapis.com/auth/userinfo.profile'
 ].join(' ');
 
-const params = {
+const googleParams = {
   response_type: 'code',
   client_id: '821517150552-71h6bahua9qul09l90veb8g3hii6ed25.apps.googleusercontent.com',
   redirect_uri: environment.GOOGLE_URL,
@@ -89,10 +97,15 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  public clickGithub() {
+    const urlParams = new URLSearchParams(githubParams).toString();
+    window.location.href = `${githubAuthUrl}?${urlParams}`; 
+  }
+
   public clickGoogle() {
-    const urlParams = new URLSearchParams(params).toString();
+    const urlParams = new URLSearchParams(googleParams).toString();
     window.location.href = `${googleAuthUrl}?${urlParams}`;
- 
+
   }
 
 

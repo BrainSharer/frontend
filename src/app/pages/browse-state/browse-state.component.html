@@ -44,7 +44,7 @@
       <div class="col-8">
         <div class="row">
           <div class="col title" *ngIf="states.length > 0">
-            <p>Found {{states.length}} different Nueroglancer views</p>
+            <p>Found {{states.length}} different Neuroglancer views</p>
           </div>
 
           <div class="col title" *ngIf="states.length < 1">
@@ -70,7 +70,7 @@
           </div>
         </div> <!-- end of list -->
 
-        <div class="d-flex justify-content-center state-pagination">
+        <div class="d-flex justify-content-center data-pagination">
           <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
           </pagination-controls>
         </div>

@@ -27,7 +27,6 @@ export class InterceptService implements HttpInterceptor {
 
   addAuthToken(request: HttpRequest<any>) {
     let access = this.cookieService.get('access');
-    // let refresh = sessionStorage.getItem('refresh');
     if (!access) {
       return request;
     } 

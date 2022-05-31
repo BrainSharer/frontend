@@ -128,7 +128,7 @@ export class AuthService {
 
   // Refreshes the JWT token, to extend the time the user is logged in
   private refreshToken(): void {
-    const refresh = sessionStorage.getItem('refresh') || '{}';
+    const refresh = this.cookieService.get('refresh');
     this.httpClient.post(this.API_URL + '/api-token-refresh/', { refresh: refresh }, httpOptions)
       .subscribe({
         next: (token: any) => {

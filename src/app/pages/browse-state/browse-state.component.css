@@ -3,14 +3,6 @@
   margin: 10px;
 }
 
-
-.search-container {
-  padding: 10px;
-  border-radius: 25px;
-  /* Green background with 30% opacity */
-  background: rgba(76, 175, 80, 0.3);
-}
-
 .accordion-container {
   background: rgba(76, 175, 80, 0.3);
   /* Green background with 30% opacity */
@@ -111,11 +103,6 @@ div.item-checkbox>label>input {
   margin: 3px 0px 0px 3px;
   padding: 3px;
   font: 500 16px/1.5 Arial;
-}
-
-.state-pagination {
-  margin: 10px 0px 0px 0px;
-  font-size: smaller;
 }
 
 .submit-button {

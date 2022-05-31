@@ -23,12 +23,6 @@ export class LoginGuard implements CanActivate {
     private cookieService: CookieService) { }
 
   canActivate(): boolean {
-    this.user = JSON.parse(sessionStorage.getItem('user') || '{}');
-    if ((this.user) && (this.user.id > 0)) {
-      console.log('LoginGuard::canActivate storage user=' + JSON.stringify(this.user));
-      this.authService.user = this.user;
-      return true;
-    }
     let user_id = this.cookieService.get('id');
     let username = this.cookieService.get('username');
     let first_name = this.cookieService.get('first_name');

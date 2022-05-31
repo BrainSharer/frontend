@@ -3,14 +3,6 @@
   margin: 10px;
 }
 
-
-.search-container {
-  padding: 10px;
-  border-radius: 25px;
-  background: rgba(76, 175, 80, 0.3);
-  /* Green background with 30% opacity */
-}
-
 .accordion-container {
   background: rgba(76, 175, 80, 0.3);
   /* Green background with 30% opacity */
@@ -19,7 +11,7 @@
 .content-container {
   padding: 20px;
   border-radius: 25px;
-  background: rgba(76, 175, 80, 0.72);
+  background: rgba(76, 175, 80, 0.3);
   /* Green background with 30% opacity */
 }
 
@@ -110,10 +102,6 @@ div.item-checkbox>label>input {
   font: 500 16px/1.5 Arial;
 }
 
-.state-pagination {
-  margin: 10px 0px 0px 0px;
-  font-size: smaller;
-}
 
 .submit-button {
   margin: 10px 0 0 20px;
