@@ -37,6 +37,7 @@ export class CreateStateComponent implements OnInit {
 
   layer_types = [
     { id: '', name: 'All' },
+    { id: 'annotation', name: 'Annotation' },
     { id: 'segmentation', name: '3D volume' },
     { id: 'image', name: 'Image stack' },
   ]
